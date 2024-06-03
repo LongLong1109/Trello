@@ -44,7 +44,6 @@ const Home = () => {
   const { setLists } = listActions
 
   const [
-    tasks,
     addingTaskStates,
     taskNameStates,
     taskDueDate,
@@ -54,7 +53,6 @@ const Home = () => {
     taskComment,
     taskActions,
   ] = useTaskStore((state) => [
-    state.tasks,
     state.addingTaskStates,
     state.taskNameStates,
     state.taskDueDate,
