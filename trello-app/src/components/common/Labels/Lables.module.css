@@ -1,0 +1,7 @@
+.root {
+  & :global(.app-Stack-root) {
+    display: flex;
+    background-color: white;
+    width: 10%;
+  }
+}

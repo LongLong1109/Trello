@@ -1,0 +1,668 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DatePickerComponent should be matches snapshot 1`] = `
+<DocumentFragment>
+  <style
+    data-mantine-styles="classes"
+  >
+    @media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}
+  </style>
+  <div
+    class=""
+    data-calendar="true"
+  >
+    <div
+      class="m_30b26e33 mantine-DatePicker-levelsGroup"
+    >
+      <div
+        class=""
+        data-month-level="true"
+      >
+        <div
+          class="m_730a79ed mantine-DatePicker-calendarHeader"
+        >
+          <button
+            class="mantine-focus-auto m_2351eeb0 mantine-DatePicker-calendarHeaderControl m_87cf2631 mantine-UnstyledButton-root"
+            data-direction="previous"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              class="m_367dc749 mantine-DatePicker-calendarHeaderControlIcon"
+              data-direction="previous"
+              fill="none"
+              style="width: 45%; height: 45%; display: block;"
+              viewBox="0 0 15 15"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </button>
+          <button
+            class="mantine-focus-auto m_f6645d97 mantine-DatePicker-calendarHeaderLevel m_87cf2631 mantine-UnstyledButton-root"
+            tabindex="0"
+            type="button"
+          >
+            May 2024
+          </button>
+          <button
+            class="mantine-focus-auto m_2351eeb0 mantine-DatePicker-calendarHeaderControl m_87cf2631 mantine-UnstyledButton-root"
+            data-direction="next"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              class="m_367dc749 mantine-DatePicker-calendarHeaderControlIcon"
+              data-direction="next"
+              fill="none"
+              style="width: 45%; height: 45%; display: block;"
+              viewBox="0 0 15 15"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+        <table
+          class="m_cc9820d3 mantine-DatePicker-month"
+        >
+          <thead
+            class="mantine-DatePicker-monthThead"
+          >
+            <tr
+              class="mantine-DatePicker-weekdaysRow"
+            >
+              <th
+                class="m_18a3eca mantine-DatePicker-weekday"
+              >
+                Mo
+              </th>
+              <th
+                class="m_18a3eca mantine-DatePicker-weekday"
+              >
+                Tu
+              </th>
+              <th
+                class="m_18a3eca mantine-DatePicker-weekday"
+              >
+                We
+              </th>
+              <th
+                class="m_18a3eca mantine-DatePicker-weekday"
+              >
+                Th
+              </th>
+              <th
+                class="m_18a3eca mantine-DatePicker-weekday"
+              >
+                Fr
+              </th>
+              <th
+                class="m_18a3eca mantine-DatePicker-weekday"
+              >
+                Sa
+              </th>
+              <th
+                class="m_18a3eca mantine-DatePicker-weekday"
+              >
+                Su
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            class="mantine-DatePicker-monthTbody"
+          >
+            <tr
+              class="mantine-DatePicker-monthRow"
+            >
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="29 April 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  data-outside="true"
+                  tabindex="-1"
+                  type="button"
+                >
+                  29
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="30 April 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  data-outside="true"
+                  tabindex="-1"
+                  type="button"
+                >
+                  30
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="1 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  1
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="2 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  2
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="3 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  3
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="4 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  data-weekend="true"
+                  tabindex="-1"
+                  type="button"
+                >
+                  4
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="5 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  data-weekend="true"
+                  tabindex="-1"
+                  type="button"
+                >
+                  5
+                </button>
+              </td>
+            </tr>
+            <tr
+              class="mantine-DatePicker-monthRow"
+            >
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="6 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  6
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="7 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  7
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="8 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  8
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="9 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  9
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="10 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  10
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="11 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  data-weekend="true"
+                  tabindex="-1"
+                  type="button"
+                >
+                  11
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="12 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  data-weekend="true"
+                  tabindex="-1"
+                  type="button"
+                >
+                  12
+                </button>
+              </td>
+            </tr>
+            <tr
+              class="mantine-DatePicker-monthRow"
+            >
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="13 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  13
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="14 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  14
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="15 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  15
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="16 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  16
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="17 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  17
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="18 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  data-weekend="true"
+                  tabindex="-1"
+                  type="button"
+                >
+                  18
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="19 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  data-weekend="true"
+                  tabindex="-1"
+                  type="button"
+                >
+                  19
+                </button>
+              </td>
+            </tr>
+            <tr
+              class="mantine-DatePicker-monthRow"
+            >
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="20 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  20
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="21 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  21
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="22 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  22
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="23 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  data-autofocus="true"
+                  data-selected="true"
+                  data-today="true"
+                  tabindex="0"
+                  type="button"
+                >
+                  23
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="24 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  24
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="25 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  data-weekend="true"
+                  tabindex="-1"
+                  type="button"
+                >
+                  25
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="26 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  data-weekend="true"
+                  tabindex="-1"
+                  type="button"
+                >
+                  26
+                </button>
+              </td>
+            </tr>
+            <tr
+              class="mantine-DatePicker-monthRow"
+            >
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="27 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  27
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="28 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  28
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="29 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  29
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="30 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  30
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="31 May 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  tabindex="-1"
+                  type="button"
+                >
+                  31
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="1 June 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  data-outside="true"
+                  tabindex="-1"
+                  type="button"
+                >
+                  1
+                </button>
+              </td>
+              <td
+                class="m_8f457cd5 mantine-DatePicker-monthCell"
+                data-with-spacing="true"
+              >
+                <button
+                  aria-label="2 June 2024"
+                  class="mantine-focus-auto m_396ce5cb mantine-DatePicker-day m_87cf2631 mantine-UnstyledButton-root"
+                  data-outside="true"
+                  tabindex="-1"
+                  type="button"
+                >
+                  2
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div
+    class="m_6c018570 mantine-Input-wrapper"
+    data-variant="default"
+    style="--input-left-section-pointer-events: none; --input-right-section-pointer-events: none;"
+  >
+    <input
+      aria-invalid="false"
+      class="m_8fb7ebe7 mantine-Input-input"
+      data-variant="default"
+      value="2024-05-23"
+    />
+  </div>
+  <div
+    class="m_8bffd616 mantine-Flex-root __m__-r1e"
+    style="justify-content: space-between; flex-direction: row;"
+  >
+    <button
+      class="mantine-focus-auto mantine-active m_77c9d27d mantine-Button-root m_87cf2631 mantine-UnstyledButton-root"
+      style="--button-color: var(--mantine-color-white);"
+      type="button"
+    >
+      <span
+        class="m_80f1301b mantine-Button-inner"
+      >
+        <span
+          class="m_811560b9 mantine-Button-label"
+        >
+          Save
+        </span>
+      </span>
+    </button>
+    <button
+      class="mantine-focus-auto mantine-active m_77c9d27d mantine-Button-root m_87cf2631 mantine-UnstyledButton-root"
+      style="--button-bg: var(--mantine-color-red-filled); --button-hover: var(--mantine-color-red-filled-hover); --button-color: var(--mantine-color-white); --button-bd: calc(0.0625rem * var(--mantine-scale)) solid transparent;"
+      type="button"
+    >
+      <span
+        class="m_80f1301b mantine-Button-inner"
+      >
+        <span
+          class="m_811560b9 mantine-Button-label"
+        >
+          Remove
+        </span>
+      </span>
+    </button>
+  </div>
+</DocumentFragment>
+`;

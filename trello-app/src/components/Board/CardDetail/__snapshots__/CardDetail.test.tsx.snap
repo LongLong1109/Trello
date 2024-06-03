@@ -1,0 +1,262 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CardDetail /> should be matches snapshot 1`] = `
+<DocumentFragment>
+  <style
+    data-mantine-styles="classes"
+  >
+    @media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}
+  </style>
+  <div
+    class="m_8bffd616 mantine-Flex-root __m__-r0"
+    style="justify-content: space-between; min-height: calc(31.25rem * var(--mantine-scale));"
+  >
+    <div
+      class="m_8bffd616 mantine-Flex-root __m__-r2"
+      style="flex-direction: column; width: 60%;"
+    >
+      <div
+        class="m_8bffd616 mantine-Flex-root __m__-r4"
+        style="flex-direction: column;"
+      >
+        <h1
+          class="m_8a5d1357 mantine-Title-root"
+          data-order="1"
+          data-size="h2"
+          style="--title-fw: var(--mantine-h2-font-weight); --title-lh: var(--mantine-h2-line-height); --title-fz: var(--mantine-h2-font-size);"
+        >
+          Labels
+        </h1>
+        <div
+          class="m_8bffd616 mantine-Flex-root __m__-r7"
+          style="gap: calc(0.3125rem * var(--mantine-scale));"
+        >
+          <div
+            class="m_1b7284a3 mantine-Paper-root"
+            style="--paper-radius: calc(0.25rem * var(--mantine-scale));"
+          />
+          <div
+            class="m_1b7284a3 mantine-Paper-root"
+            style="--paper-radius: calc(0.25rem * var(--mantine-scale));"
+          />
+        </div>
+        <h1
+          class="m_8a5d1357 mantine-Title-root"
+          data-order="1"
+          data-size="h2"
+          style="--title-fw: var(--mantine-h2-font-weight); --title-lh: var(--mantine-h2-line-height); --title-fz: var(--mantine-h2-font-size);"
+        >
+          Due date
+        </h1>
+        <div
+          class="m_347db0ec mantine-Badge-root"
+        >
+          <span
+            class="m_5add502a mantine-Badge-label"
+          >
+            5/27/2024
+          </span>
+        </div>
+      </div>
+      <div
+        class="m_1b7284a3 mantine-Paper-root"
+      >
+        <h1
+          class="m_8a5d1357 mantine-Title-root"
+          data-order="1"
+          data-size="h2"
+          style="--title-fw: var(--mantine-h2-font-weight); --title-lh: var(--mantine-h2-line-height); --title-fz: var(--mantine-h2-font-size);"
+        >
+          Description
+        </h1>
+        <div
+          class="m_1b7284a3 mantine-Paper-root"
+          style="width: 100%;"
+        >
+          Sample description
+        </div>
+      </div>
+      <div
+        class="m_1b7284a3 mantine-Paper-root"
+      >
+        <h1
+          class="m_8a5d1357 mantine-Title-root"
+          data-order="1"
+          data-size="h2"
+          style="--title-fw: var(--mantine-h2-font-weight); --title-lh: var(--mantine-h2-line-height); --title-fz: var(--mantine-h2-font-size);"
+        >
+          Comment
+        </h1>
+        <div
+          class="m_1b7284a3 mantine-Paper-root"
+          style="width: 100%;"
+        >
+          Sample comment
+        </div>
+      </div>
+    </div>
+    <div
+      class="m_8bffd616 mantine-Flex-root __m__-rj"
+      style="gap: calc(0.625rem * var(--mantine-scale)); flex-direction: column; width: 30%;"
+    >
+      <h1
+        class="m_8a5d1357 mantine-Title-root"
+        data-order="1"
+        data-size="h2"
+        style="--title-fw: var(--mantine-h2-font-weight); --title-lh: var(--mantine-h2-line-height); --title-fz: var(--mantine-h2-font-size);"
+      >
+        Add to card
+      </h1>
+      <button
+        aria-controls="mantine-t2sphrkqx-dropdown"
+        aria-expanded="false"
+        aria-haspopup="dialog"
+        class="mantine-focus-auto mantine-active m_77c9d27d mantine-Button-root m_87cf2631 mantine-UnstyledButton-root"
+        data-size="md"
+        data-variant="light"
+        data-with-left-section="true"
+        id="mantine-t2sphrkqx-target"
+        justify="flex-start"
+        style="--button-justify: flex-start; --button-height: var(--button-height-md); --button-padding-x: var(--button-padding-x-md); --button-fz: var(--mantine-font-size-md); --button-radius: var(--mantine-radius-sm); --button-bg: var(--mantine-color-blue-light); --button-hover: var(--mantine-color-blue-light-hover); --button-color: var(--mantine-color-blue-light-color); --button-bd: calc(0.0625rem * var(--mantine-scale)) solid transparent;"
+        type="button"
+      >
+        <span
+          class="m_80f1301b mantine-Button-inner"
+        >
+          <span
+            class="m_a74036a mantine-Button-section"
+            data-position="left"
+          >
+            <svg
+              class="tabler-icon tabler-icon-tag-starred "
+              fill="none"
+              height="16"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"
+              />
+              <path
+                d="M3 6v5.172a2 2 0 0 0 .586 1.414l7.71 7.71a2.41 2.41 0 0 0 3.408 0l5.592 -5.592a2.41 2.41 0 0 0 0 -3.408l-7.71 -7.71a2 2 0 0 0 -1.414 -.586h-5.172a3 3 0 0 0 -3 3z"
+              />
+              <path
+                d="M12.5 13.847l-1.5 1.153l.532 -1.857l-1.532 -1.143h1.902l.598 -1.8l.598 1.8h1.902l-1.532 1.143l.532 1.857z"
+              />
+            </svg>
+          </span>
+          <span
+            class="m_811560b9 mantine-Button-label"
+          >
+            Labels
+          </span>
+        </span>
+      </button>
+      <button
+        aria-controls="mantine-sh1ml9k69-dropdown"
+        aria-expanded="false"
+        aria-haspopup="dialog"
+        class="mantine-focus-auto mantine-active m_77c9d27d mantine-Button-root m_87cf2631 mantine-UnstyledButton-root"
+        data-size="md"
+        data-variant="light"
+        data-with-left-section="true"
+        id="mantine-sh1ml9k69-target"
+        justify="flex-start"
+        style="--button-justify: flex-start; --button-height: var(--button-height-md); --button-padding-x: var(--button-padding-x-md); --button-fz: var(--mantine-font-size-md); --button-radius: var(--mantine-radius-sm); --button-bg: var(--mantine-color-blue-light); --button-hover: var(--mantine-color-blue-light-hover); --button-color: var(--mantine-color-blue-light-color); --button-bd: calc(0.0625rem * var(--mantine-scale)) solid transparent;"
+        type="button"
+      >
+        <span
+          class="m_80f1301b mantine-Button-inner"
+        >
+          <span
+            class="m_a74036a mantine-Button-section"
+            data-position="left"
+          >
+            <svg
+              class="tabler-icon tabler-icon-calendar "
+              fill="none"
+              height="16"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"
+              />
+              <path
+                d="M16 3v4"
+              />
+              <path
+                d="M8 3v4"
+              />
+              <path
+                d="M4 11h16"
+              />
+              <path
+                d="M11 15h1"
+              />
+              <path
+                d="M12 15v3"
+              />
+            </svg>
+          </span>
+          <span
+            class="m_811560b9 mantine-Button-label"
+          >
+            Date
+          </span>
+        </span>
+      </button>
+      <button
+        class="mantine-focus-auto mantine-active m_77c9d27d mantine-Button-root m_87cf2631 mantine-UnstyledButton-root"
+        data-size="md"
+        data-variant="light"
+        data-with-left-section="true"
+        justify="flex-start"
+        style="--button-justify: flex-start; --button-height: var(--button-height-md); --button-padding-x: var(--button-padding-x-md); --button-fz: var(--mantine-font-size-md); --button-radius: var(--mantine-radius-sm); --button-bg: var(--mantine-color-blue-light); --button-hover: var(--mantine-color-blue-light-hover); --button-color: var(--mantine-color-blue-light-color); --button-bd: calc(0.0625rem * var(--mantine-scale)) solid transparent;"
+        type="button"
+      >
+        <span
+          class="m_80f1301b mantine-Button-inner"
+        >
+          <span
+            class="m_a74036a mantine-Button-section"
+            data-position="left"
+          >
+            <svg
+              class="tabler-icon tabler-icon-minus "
+              fill="none"
+              height="16"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12l14 0"
+              />
+            </svg>
+          </span>
+          <span
+            class="m_811560b9 mantine-Button-label"
+          >
+            Remove Card
+          </span>
+        </span>
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;

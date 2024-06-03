@@ -1,0 +1,32 @@
+.root {
+  & :global(.app-Checkbox-body) {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.input {
+  width: 20px;
+  height: 20px;
+}
+
+.icon {
+  width: 10px;
+  height: 10px;
+}
+
+.labelWrapper {
+  display: flex;
+  align-items: center;
+  gap: px;
+  width: 100%;
+}
+
+.label {
+  width: 100%;
+  & :global(.app-Stack-root) {
+    display: block;
+    height: 30px;
+    border-radius: 4px;
+  }
+}

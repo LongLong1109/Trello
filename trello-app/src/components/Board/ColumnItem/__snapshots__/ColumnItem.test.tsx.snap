@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ColumnItem component should be matches snapshot 1`] = `
+<DocumentFragment>
+  <style
+    data-mantine-styles="classes"
+  >
+    @media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}
+  </style>
+  <button
+    class="mantine-focus-auto mantine-active m_77c9d27d mantine-Button-root m_87cf2631 mantine-UnstyledButton-root"
+    data-variant="light-white"
+    data-with-left-section="true"
+    justify="flex-start"
+    style="--button-justify: flex-start; --button-radius: var(--mantine-radius-lg);"
+    type="button"
+  >
+    <span
+      class="m_80f1301b mantine-Button-inner"
+    >
+      <span
+        class="m_a74036a mantine-Button-section"
+        data-position="left"
+      >
+        <svg
+          class="tabler-icon tabler-icon-plus "
+          fill="none"
+          height="16"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 5l0 14"
+          />
+          <path
+            d="M5 12l14 0"
+          />
+        </svg>
+      </span>
+      <span
+        class="m_811560b9 mantine-Button-label"
+      >
+        Add a list
+      </span>
+    </span>
+  </button>
+</DocumentFragment>
+`;
