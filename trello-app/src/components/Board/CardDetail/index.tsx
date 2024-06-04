@@ -3,6 +3,9 @@ import { ChangeEvent } from 'react'
 import { Flex, Paper, Title, Textarea, Modal, Badge } from '@mantine/core'
 import { IconCalendar, IconTagStarred, IconMinus } from '@tabler/icons-react'
 
+// utils
+import { isDateOverdue } from '@/utils/validateDate'
+
 // components
 import { Labels, Button, DatePicker, Popover, CheckboxItem } from '../../common'
 
@@ -58,6 +61,7 @@ const CardDetail = ({
   onRemoveCard,
 }: CardDetailProps) => {
   const taskDueDate = new Date(dueDate ?? '')
+  const checkDateOverdue = isDateOverdue(taskDueDate)
 
   const handleOpenLabel = () => {
     onOpenLabel(true)
@@ -135,7 +139,11 @@ const CardDetail = ({
               Due date
             </Title>
           )}
-          {dueDate && <Badge>{taskDueDate.toLocaleDateString()}</Badge>}
+          {dueDate && (
+            <Badge variant='light' radius='xs' color='gray' c={checkDateOverdue ? 'red' : 'blue'}>
+              {taskDueDate.toLocaleDateString()} {checkDateOverdue && 'overdue'}
+            </Badge>
+          )}
         </Flex>
         <Paper>
           <Title c='backgrounds.8' size='h2' mb='10'>

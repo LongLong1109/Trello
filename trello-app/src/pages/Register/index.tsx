@@ -1,6 +1,6 @@
 import { useTransition } from 'react'
 import { useForm } from '@mantine/form'
-import { Container, Paper, Button, TextInput, Group, Text } from '@mantine/core'
+import { Container, Paper, Button, TextInput, Flex, Text } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
@@ -51,14 +51,15 @@ const RegisterForm = () => {
   }
 
   return (
-    <Container maw={400}>
-      <Paper w='100%' p='md' shadow='xs'>
+    <Container miw='450'>
+      <Paper w='100%' p='md' shadow='md'>
         <form onReset={form.onReset} onSubmit={form.onSubmit(handleRegister)}>
           <TextInput
             withAsterisk
             label='First Name'
             placeholder='Your First Name'
             error={form.errors.firstName}
+            mb='lg'
             {...form.getInputProps('firstName')}
           />
 
@@ -67,6 +68,7 @@ const RegisterForm = () => {
             label='Last Name'
             placeholder='Your Last Name'
             error={form.errors.lastName}
+            mb='lg'
             {...form.getInputProps('lastName')}
           />
 
@@ -76,6 +78,7 @@ const RegisterForm = () => {
             label='Email'
             placeholder='your@email.com'
             error={form.errors.email}
+            mb='lg'
             {...form.getInputProps('email')}
           />
 
@@ -85,22 +88,22 @@ const RegisterForm = () => {
             label='Password'
             placeholder='Password'
             error={form.errors.password}
+            mb='lg'
             {...form.getInputProps('password')}
-            mt='md'
           />
 
-          <Group mt='md'>
+          <Flex pt='lg' direction='column' gap='10'>
             <Button type='submit' loading={isPending}>
-              Create Account
+              Sign up
             </Button>
 
             <Text>
               Already have an account?{' '}
               <Link style={{ color: 'backgrounds.2' }} to={`/${ENDPOINTS.LOGIN}`}>
-                Login now
+                Sign in
               </Link>
             </Text>
-          </Group>
+          </Flex>
         </form>
       </Paper>
     </Container>

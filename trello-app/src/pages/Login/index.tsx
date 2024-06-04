@@ -2,7 +2,7 @@ import { useTransition } from 'react'
 import { useForm } from '@mantine/form'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
-import { Container, Paper, Button, TextInput, Group, Text } from '@mantine/core'
+import { Container, Paper, Button, TextInput, Flex, Text } from '@mantine/core'
 
 // interface
 import { UserLogin } from '@/interfaces/User'
@@ -41,7 +41,7 @@ const Login = () => {
   })
 
   return (
-    <Container maw={400}>
+    <Container miw='450'>
       <Paper w='100%' p='md' shadow='xs'>
         <form onReset={form.onReset} onSubmit={form.onSubmit(handleLogin)}>
           <TextInput
@@ -50,6 +50,7 @@ const Login = () => {
             label='Email'
             placeholder='your@email.com'
             error={form.errors.email}
+            mb='lg'
             {...form.getInputProps('email')}
           />
           <TextInput
@@ -58,11 +59,11 @@ const Login = () => {
             label='Password'
             placeholder='Password'
             error={form.errors.password}
+            mb='lg'
             {...form.getInputProps('password')}
-            mt='md'
           />
 
-          <Group mt='md'>
+          <Flex pt='lg' direction='column' gap='10'>
             <Button type='submit' loading={isPending}>
               Sign in
             </Button>
@@ -73,7 +74,7 @@ const Login = () => {
                 SignUp now
               </Link>
             </Text>
-          </Group>
+          </Flex>
         </form>
       </Paper>
     </Container>
