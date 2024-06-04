@@ -135,7 +135,7 @@ const CardDetail = ({
               Due date
             </Title>
           )}
-          {taskDueDate && <Badge>{taskDueDate.toLocaleDateString()}</Badge>}
+          {dueDate && <Badge>{taskDueDate.toLocaleDateString()}</Badge>}
         </Flex>
         <Paper>
           <Title c='backgrounds.8' size='h2' mb='10'>

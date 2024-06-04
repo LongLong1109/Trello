@@ -39,7 +39,7 @@ const TaskCard = ({ task, onDragStart, onOpenCard }: TaskCardProps) => {
         </Flex>
       )}
       <Flex gap='10' align='center' mt='10'>
-        {taskDueDate && (
+        {dueDate && (
           <Badge>
             {taskDueDate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit' })}
           </Badge>
