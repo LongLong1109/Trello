@@ -12,6 +12,7 @@ interface TaskCardProps {
 
 const TaskCard = ({ task, onDragStart, onOpenCard }: TaskCardProps) => {
   const { id, title, labels, description, comment, dueDate } = task
+  const taskDueDate = new Date(dueDate ?? '')
 
   const handleCardClick = () => {
     onOpenCard(task)
@@ -38,8 +39,10 @@ const TaskCard = ({ task, onDragStart, onOpenCard }: TaskCardProps) => {
         </Flex>
       )}
       <Flex gap='10' align='center' mt='10'>
-        {dueDate && (
-          <Badge>{dueDate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit' })}</Badge>
+        {taskDueDate && (
+          <Badge>
+            {taskDueDate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit' })}
+          </Badge>
         )}
         {description && <IconFileDescription size='14' />}
         {comment && <IconMessagePlus size='14' />}

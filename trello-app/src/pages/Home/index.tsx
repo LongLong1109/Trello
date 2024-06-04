@@ -386,7 +386,7 @@ const Home = () => {
               dueDate={taskDueDate}
               isOpenLabel={isOpenLabel}
               isOpenDate={isOpenDate}
-              formattedDate={taskDueDate ? taskDueDate.toLocaleDateString() : ''}
+              formattedDate={taskDueDate ? new Date(taskDueDate).toLocaleDateString() : ''}
               onOpenLabel={setOpenLabel}
               onOpenDate={setOpenDate}
               onUpdateDescription={handleDescriptionChange}

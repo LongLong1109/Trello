@@ -57,6 +57,8 @@ const CardDetail = ({
   onOpenRemoveCard,
   onRemoveCard,
 }: CardDetailProps) => {
+  const taskDueDate = new Date(dueDate ?? '')
+
   const handleOpenLabel = () => {
     onOpenLabel(true)
   }
@@ -133,7 +135,7 @@ const CardDetail = ({
               Due date
             </Title>
           )}
-          {dueDate && <Badge>{dueDate.toLocaleDateString()}</Badge>}
+          {taskDueDate && <Badge>{taskDueDate.toLocaleDateString()}</Badge>}
         </Flex>
         <Paper>
           <Title c='backgrounds.8' size='h2' mb='10'>

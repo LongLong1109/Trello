@@ -1,3 +1,4 @@
+import { useTransition } from 'react'
 import { useForm } from '@mantine/form'
 import { Container, Paper, Button, TextInput, Group, Text } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
@@ -40,9 +41,13 @@ const RegisterForm = () => {
   const navigate = useNavigate()
   const register = useAuthStore((state) => state.register)
 
-  const handleRegister = async (data: UserRegister) => {
-    await register(data)
-    navigate(`/${ENDPOINTS.HOME}`)
+  const [isPending, startTransition] = useTransition()
+
+  const handleRegister = (data: UserRegister) => {
+    startTransition(async () => {
+      await register(data)
+      navigate(`/${ENDPOINTS.HOME}`)
+    })
   }
 
   return (
@@ -53,7 +58,7 @@ const RegisterForm = () => {
             withAsterisk
             label='First Name'
             placeholder='Your First Name'
-            error={form.errors.email}
+            error={form.errors.firstName}
             {...form.getInputProps('firstName')}
           />
 
@@ -61,7 +66,7 @@ const RegisterForm = () => {
             withAsterisk
             label='Last Name'
             placeholder='Your Last Name'
-            error={form.errors.email}
+            error={form.errors.lastName}
             {...form.getInputProps('lastName')}
           />
 
@@ -85,7 +90,7 @@ const RegisterForm = () => {
           />
 
           <Group mt='md'>
-            <Button type='submit' className='submit' disabled={!form.isValid()}>
+            <Button type='submit' loading={isPending}>
               Create Account
             </Button>
 

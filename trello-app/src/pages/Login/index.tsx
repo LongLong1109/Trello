@@ -1,3 +1,4 @@
+import { useTransition } from 'react'
 import { useForm } from '@mantine/form'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
@@ -19,9 +20,13 @@ const Login = () => {
   const navigate = useNavigate()
   const login = useAuthStore((state) => state.login)
 
+  const [isPending, startTransition] = useTransition()
+
   const handleLogin = async (data: UserLogin) => {
-    await login(data)
-    navigate(`/${ENDPOINTS.HOME}`)
+    startTransition(async () => {
+      await login(data)
+      navigate(`/${ENDPOINTS.HOME}`)
+    })
   }
 
   const form = useForm({
@@ -58,7 +63,7 @@ const Login = () => {
           />
 
           <Group mt='md'>
-            <Button type='submit' className='submit' disabled={!form.isValid()}>
+            <Button type='submit' loading={isPending}>
               Sign in
             </Button>
 
