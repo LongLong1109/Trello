@@ -15,13 +15,7 @@ import useAuthStore from '@/stores/useAuthStore'
 import withAuth from '@/hocs/withAuth'
 
 // hook
-import {
-  useGetColumns,
-  usePostTask,
-  useGetTasks,
-  usePutTask,
-  useRemoveTask,
-} from '@/hooks/useBoardApi'
+import { useGetBoards, usePostTask, usePutTask, useRemoveTask } from '@/hooks/useBoardApi'
 
 // constants
 import { NOTIFICATION_DELETE_CARD } from '@/constants/notification'
@@ -35,8 +29,7 @@ import Column from '@/components/Board/Columns'
 const Home = () => {
   const userAuth = useAuthStore((state) => state.userAuth)
   const userId = userAuth?.user.id || ''
-  const { data: listColumn } = useGetColumns(userId)
-  const { data: getTask } = useGetTasks()
+  const { getListColumn, isLoadingColumns, getTasks, isLoadingTasks } = useGetBoards(userId)
   const { mutate: postTask } = usePostTask()
 
   // list store
@@ -74,9 +67,7 @@ const Home = () => {
     setTaskComment,
   } = taskActions
 
-  console.log('selectedTask', selectedTask)
-
-  const { mutate: updateTask } = usePutTask(selectedTask?.id || 0)
+  const { mutate: updateTask } = usePutTask()
   const { mutate: deleteTask } = useRemoveTask()
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -109,16 +100,16 @@ const Home = () => {
   }
 
   useEffect(() => {
-    if (listColumn && getTask) {
+    if (getListColumn && getTasks) {
       setLists(
-        listColumn.columns.map((column) => ({
+        getListColumn.columns.map((column) => ({
           id: column.id,
           name: column.name,
-          tasks: getTask.filter((task) => task.orderId === column.order),
+          tasks: getTasks.filter((task) => task.orderId === column.order),
         })),
       )
     }
-  }, [getTask, listColumn, setLists])
+  }, [getTasks, getListColumn, setLists])
 
   useEffect(() => {
     if (selectedTask) {
@@ -204,18 +195,24 @@ const Home = () => {
 
   const handleSaveDate = () => {
     if (selectedTask) {
+      setSelectedTask({ ...selectedTask, dueDate: taskDueDate })
       updateTaskDueDate(selectedTask.listId, selectedTask.id, taskDueDate)
       setOpenDate(false)
-      updateTask({ ...selectedTask, dueDate: taskDueDate, orderId: selectedTask.listId })
+      updateTask({
+        ...selectedTask,
+        dueDate: taskDueDate,
+        orderId: selectedTask.listId,
+      })
     }
   }
 
   const handleRemoveDate = () => {
     if (selectedTask) {
+      setSelectedTask({ ...selectedTask, dueDate: null })
       setTaskDueDate(null)
       updateTaskDueDate(selectedTask.listId, selectedTask.id, null)
       setOpenDate(false)
-      updateTask({ ...selectedTask, dueDate: taskDueDate, orderId: selectedTask.listId })
+      updateTask({ ...selectedTask, dueDate: null, orderId: selectedTask.listId })
     }
   }
 
@@ -253,6 +250,7 @@ const Home = () => {
         const updatedTasks = list.tasks.filter((task) => {
           if (task.id === taskId) {
             taskToMove = task
+            updateTask({ ...task, orderId: targetListId })
             return false
           }
           return true
@@ -274,6 +272,8 @@ const Home = () => {
         }),
       )
     }
+
+    selectedTask && updateTask({ ...selectedTask, orderId: targetListId })
   }
 
   const updateTaskLabels = (listId: number, taskId: number, labels: string[]) => {
@@ -362,6 +362,7 @@ const Home = () => {
             <Column
               key={list.id}
               list={list}
+              isLoading={isLoadingColumns}
               isAddingTask={addingTaskStates[list.id]}
               taskName={taskNameStates[list.id]}
               onAddTask={(taskName) => handleAddTask(list.id, taskName)}
@@ -386,6 +387,7 @@ const Home = () => {
               dueDate={taskDueDate}
               isOpenLabel={isOpenLabel}
               isOpenDate={isOpenDate}
+              isLoading={isLoadingTasks}
               formattedDate={taskDueDate ? new Date(taskDueDate).toLocaleDateString() : ''}
               onOpenLabel={setOpenLabel}
               onOpenDate={setOpenDate}

@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { IconPlus } from '@tabler/icons-react'
-import { Box, Title, Card as MantineCard, Flex, Paper, CloseButton } from '@mantine/core'
+import { Box, Title, Card as MantineCard, Flex, Paper, CloseButton, Skeleton } from '@mantine/core'
 
 // interfaces
 import { Task, ListTask } from '@/interfaces/Task'
@@ -13,6 +13,7 @@ interface ColumnProps {
   list: ListTask
   isAddingTask: boolean
   taskName: string
+  isLoading: boolean
   onAddTask: (taskName: string) => void
   onTaskDrop: (
     taskId: number,
@@ -29,6 +30,7 @@ const Column = ({
   list,
   taskName,
   isAddingTask,
+  isLoading,
   onIsAddingTask,
   onTaskName,
   onAddTask,
@@ -88,11 +90,17 @@ const Column = ({
     >
       <Box>
         <Title fw='500' c='backgrounds.0' order={5} p='10'>
-          {name}
+          {isLoading ? <Skeleton height={24} /> : name}
         </Title>
-        {tasks.map((task) => (
-          <Card key={task.id} task={task} onDragStart={handleDragStart} onOpenCard={onOpenCard} />
-        ))}
+        {isLoading ? (
+          <>
+            <Skeleton height={50} mb='sm' />
+          </>
+        ) : (
+          tasks.map((task) => (
+            <Card key={task.id} task={task} onDragStart={handleDragStart} onOpenCard={onOpenCard} />
+          ))
+        )}
         {isAddingTask ? (
           <Flex direction='column' gap='sm'>
             <Paper shadow='md' radius='md'>
@@ -112,7 +120,7 @@ const Column = ({
           <Button
             w='100%'
             mt='10'
-            justify='flex-star'
+            justify='flex-start'
             variant='primary'
             leftSection={<IconPlus size='16' />}
             onClick={handleOpenAddTask}

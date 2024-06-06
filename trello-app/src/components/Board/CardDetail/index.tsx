@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import { ChangeEvent } from 'react'
-import { Flex, Paper, Title, Textarea, Modal, Badge } from '@mantine/core'
+import { Flex, Paper, Title, Textarea, Modal, Badge, Skeleton } from '@mantine/core'
 import { IconCalendar, IconTagStarred, IconMinus } from '@tabler/icons-react'
 
 // utils
@@ -21,6 +21,7 @@ export interface CardDetailProps {
   comments: string
   isEditComment: boolean
   isOpenRemoveCard: boolean
+  isLoading: boolean
   onEditComment: (value: boolean) => void
   onEditingDescription: (value: boolean) => void
   onUpdateComment: (value: string) => void
@@ -46,6 +47,7 @@ const CardDetail = ({
   isEditingDescription,
   comments,
   isEditComment,
+  isLoading,
   onEditComment,
   onUpdateComment,
   onEditingDescription,
@@ -123,33 +125,53 @@ const CardDetail = ({
     <Flex justify='space-between' mih='500'>
       <Flex direction='column' w='60%'>
         <Flex direction='column' mb='20'>
-          {labels.length > 0 && (
-            <Title c='backgrounds.8' size='h2' mb='10'>
-              Labels
-            </Title>
+          {isLoading ? (
+            <Skeleton height={30} mb='10' />
+          ) : (
+            labels.length > 0 && (
+              <Title c='backgrounds.8' size='h2' mb='10'>
+                Labels
+              </Title>
+            )
           )}
           <Flex gap='5'>
-            {labels.map((label) => (
-              <Paper w='50' h='30' radius='4' bg={label} key={label} />
-            ))}
+            {isLoading ? (
+              <Skeleton width={50} height={30} />
+            ) : (
+              labels.map((label) => <Paper w='50' h='30' radius='4' bg={label} key={label} />)
+            )}
           </Flex>
 
-          {dueDate && (
-            <Title c='backgrounds.8' size='h2' mb='10' mt='10'>
-              Due date
-            </Title>
-          )}
-          {dueDate && (
-            <Badge variant='light' radius='xs' color='gray' c={checkDateOverdue ? 'red' : 'blue'}>
-              {taskDueDate.toLocaleDateString()} {checkDateOverdue && 'overdue'}
-            </Badge>
+          {isLoading ? (
+            <>
+              <Skeleton height={30} mb='10' mt='10' />
+              <Skeleton width={100} height={24} />
+            </>
+          ) : (
+            dueDate && (
+              <>
+                <Title c='backgrounds.8' size='h2' mb='10' mt='10'>
+                  Due date
+                </Title>
+                <Badge
+                  variant='light'
+                  radius='xs'
+                  color='gray'
+                  c={checkDateOverdue ? 'red' : 'blue'}
+                >
+                  {taskDueDate.toLocaleDateString()} {checkDateOverdue && 'overdue'}
+                </Badge>
+              </>
+            )
           )}
         </Flex>
         <Paper>
           <Title c='backgrounds.8' size='h2' mb='10'>
             Description
           </Title>
-          {isEditingDescription ? (
+          {isLoading ? (
+            <Skeleton height={100} mb='sm' />
+          ) : isEditingDescription ? (
             <Textarea
               value={description}
               onChange={handleDescriptionChange}
@@ -169,7 +191,9 @@ const CardDetail = ({
           <Title c='backgrounds.8' size='h2' mt='20' mb='10'>
             Comment
           </Title>
-          {isEditComment ? (
+          {isLoading ? (
+            <Skeleton height={100} mb='sm' />
+          ) : isEditComment ? (
             <Textarea
               value={comments}
               onChange={handleCommentsChange}
@@ -198,7 +222,11 @@ const CardDetail = ({
           onClose={handleCloseLabel}
         >
           <Paper p='12' w='300'>
-            <Labels onChange={onUpdateLabels} checkList={checkList} onClose={handleCloseLabel} />
+            {isLoading ? (
+              <Skeleton height={40} />
+            ) : (
+              <Labels onChange={onUpdateLabels} checkList={checkList} onClose={handleCloseLabel} />
+            )}
           </Paper>
         </Popover>
 
@@ -210,13 +238,17 @@ const CardDetail = ({
           onClose={handleCloseDueDate}
         >
           <Paper p='12' w='300'>
-            <DatePicker
-              value={dueDate}
-              onChange={onUpdateDueDate}
-              formattedDate={formattedDate}
-              onSave={onSaveDate}
-              onRemove={onRemoveDate}
-            />
+            {isLoading ? (
+              <Skeleton height={40} />
+            ) : (
+              <DatePicker
+                value={dueDate}
+                onChange={onUpdateDueDate}
+                formattedDate={formattedDate}
+                onSave={onSaveDate}
+                onRemove={onRemoveDate}
+              />
+            )}
           </Paper>
         </Popover>
 
