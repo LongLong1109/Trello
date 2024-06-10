@@ -17,7 +17,15 @@ const ModalComponent = ({ value, open, isLoading, onClose, children, onChange }:
       classNames={classes}
       opened={open}
       onClose={onClose}
-      title={<InputComponent variant='none-outline' value={value} onChange={onChange} size='lg' />}
+      title={
+        <InputComponent
+          variant='none-outline'
+          value={value}
+          onChange={onChange}
+          size='lg'
+          style={{ fontWeight: '700' }}
+        />
+      }
       radius='lg'
       size='lg'
     >

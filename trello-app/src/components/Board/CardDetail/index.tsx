@@ -4,7 +4,7 @@ import { Flex, Paper, Title, Textarea, Modal, Badge, Skeleton } from '@mantine/c
 import { IconCalendar, IconTagStarred, IconMinus } from '@tabler/icons-react'
 
 // utils
-import { isDateOverdue } from '@/utils/validateDate'
+import { isDateOverdue, formatDate } from '@/utils/validateDate'
 
 // components
 import { Labels, Button, DatePicker, Popover, CheckboxItem } from '../../common'
@@ -153,8 +153,9 @@ const CardDetail = ({
                 <Title c='backgrounds.8' order={6} mb='10' mt='10'>
                   Due date
                 </Title>
-                <Badge radius='xs' color={checkDateOverdue ? 'red' : 'blue'}>
-                  {taskDueDate.toLocaleDateString()} {checkDateOverdue && 'overdue'}
+                <Badge radius='xs' color={checkDateOverdue ? 'red' : 'blue'} tt='capitalize'>
+                  {formatDate(taskDueDate)}
+                  {checkDateOverdue && ', overdue'}
                 </Badge>
               </>
             )

@@ -5,7 +5,7 @@ import { IconMessagePlus, IconFileDescription } from '@tabler/icons-react'
 import { Task } from '@/interfaces/Task'
 
 // utils
-import { isDateOverdue } from '@/utils/validateDate'
+import { isDateOverdue, formatDate } from '@/utils/validateDate'
 
 interface TaskCardProps {
   task: Task
@@ -44,8 +44,8 @@ const TaskCard = ({ task, onDragStart, onOpenCard }: TaskCardProps) => {
       )}
       <Flex gap='10' align='center' mt='5'>
         {dueDate && (
-          <Badge color={checkDateOverdue ? 'red' : 'blue'} radius='xs'>
-            {taskDueDate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit' })}
+          <Badge color={checkDateOverdue ? 'red' : 'blue'} radius='xs' tt='capitalize'>
+            {formatDate(taskDueDate)}
           </Badge>
         )}
         {description && <IconFileDescription size='14' />}
