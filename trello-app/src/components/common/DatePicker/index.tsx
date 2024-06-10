@@ -23,7 +23,7 @@ const DatePickerComponent = ({
       <DatePicker value={value} onChange={onChange} />
       <Input value={formattedDate} />
       <Flex direction='row' justify='space-between' pt={10}>
-        <Button onClick={onRemove} disabled={!value} color='red' name='Remove' />
+        <Button variant='light' onClick={onRemove} disabled={!value} color='red' name='Remove' />
         <Button onClick={onSave} disabled={!value} name='Save' />
       </Flex>
     </>
