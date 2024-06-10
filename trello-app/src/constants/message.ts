@@ -1,6 +1,6 @@
 export const MESSAGES = {
-  firstName: 'Invalid First Name',
-  lastName: 'Invalid Last Name',
-  email: 'Invalid Email',
-  password: 'Invalid Password',
+  firstName: 'First Name is required',
+  lastName: 'Last Name is required',
+  email: 'Email is required',
+  password: 'Password greater than 8 characters',
 }

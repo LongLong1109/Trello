@@ -89,7 +89,7 @@ const Column = ({
       onDrop={(event) => handleDrop(event, tasks.length)}
     >
       <Box>
-        <Title fw='500' c='backgrounds.0' order={5} p='10'>
+        <Title fw='700' c='backgrounds.0' order={5} p='10'>
           {isLoading ? <Skeleton height={24} /> : name}
         </Title>
         {isLoading ? (

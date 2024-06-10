@@ -1,0 +1,10 @@
+.loader {
+  & :global(.app-Loader-root::after) {
+    width: 15px;
+    height: 15px;
+  }
+  & :global(.app-Loader-root) {
+    width: 15px;
+    height: 15px;
+  }
+}

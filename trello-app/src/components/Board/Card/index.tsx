@@ -32,7 +32,7 @@ const TaskCard = ({ task, onDragStart, onOpenCard }: TaskCardProps) => {
       onDragStart={(event) => onDragStart(event, id)}
       onClick={handleCardClick}
     >
-      <Text fs='500' pb='10'>
+      <Text fs='500' pb='5'>
         {title}
       </Text>
       {labels && (
@@ -42,9 +42,9 @@ const TaskCard = ({ task, onDragStart, onOpenCard }: TaskCardProps) => {
           ))}
         </Flex>
       )}
-      <Flex gap='10' align='center' mt='10'>
+      <Flex gap='10' align='center' mt='5'>
         {dueDate && (
-          <Badge variant='light' color={checkDateOverdue ? 'red' : 'blue'} radius='xs'>
+          <Badge color={checkDateOverdue ? 'red' : 'blue'} radius='xs'>
             {taskDueDate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit' })}
           </Badge>
         )}

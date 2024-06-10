@@ -1,4 +1,4 @@
-import { Title, Text, Stack, Flex, Box } from '@mantine/core'
+import { Title, Stack, Flex } from '@mantine/core'
 import { CloseButton } from '@mantine/core'
 import CheckListComponent, { CheckboxItem } from '../CheckList/index'
 import classes from './Lables.module.css'
@@ -18,10 +18,7 @@ const LabelComponent = ({ checkList, onChange, onClose }: LabelProps) => (
       </Title>
       <CloseButton onClick={onClose} />
     </Flex>
-    <Text>Labels</Text>
-    <Box>
-      <CheckListComponent items={checkList} onItemChange={onChange} />
-    </Box>
+    <CheckListComponent items={checkList} onItemChange={onChange} />
   </>
 )
 

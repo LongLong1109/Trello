@@ -272,8 +272,6 @@ const Home = () => {
         }),
       )
     }
-
-    selectedTask && updateTask({ ...selectedTask, orderId: targetListId })
   }
 
   const updateTaskLabels = (listId: number, taskId: number, labels: string[]) => {
@@ -350,66 +348,59 @@ const Home = () => {
   }
 
   return (
-    <Box
-      bg='linear-gradient(135deg, #4a5a75 0%, #213455 100%)'
-      h={`calc(100vh - 50px)`}
-      w='100%'
-      p='20'
-    >
-      <Flex direction='column' gap='lg'>
-        <Flex gap='lg' align='flex-start' style={{ overflowX: 'auto', padding: '1rem 0' }}>
-          {lists.map((list) => (
-            <Column
-              key={list.id}
-              list={list}
-              isLoading={isLoadingColumns}
-              isAddingTask={addingTaskStates[list.id]}
-              taskName={taskNameStates[list.id]}
-              onAddTask={(taskName) => handleAddTask(list.id, taskName)}
-              onTaskDrop={handleTaskDrop}
-              onIsAddingTask={(value) => setAddingTaskStates(list.id, value)}
-              onTaskName={(name) => setTaskNameStates(list.id, name)}
-              onOpenCard={(task) => handleTaskClick(task, list.id)}
-            />
-          ))}
-        </Flex>
-        <Modal
-          open={isModalOpen}
-          onClose={handleCloseModal}
-          value={selectedTask?.title || ''}
-          onChange={handleInputChange}
-        >
-          {selectedTask && (
-            <CardDetail
-              description={taskDescription}
-              labels={taskLabels}
-              checkList={checkList}
-              dueDate={taskDueDate}
-              isOpenLabel={isOpenLabel}
-              isOpenDate={isOpenDate}
-              isLoading={isLoadingTasks}
-              formattedDate={taskDueDate ? new Date(taskDueDate).toLocaleDateString() : ''}
-              onOpenLabel={setOpenLabel}
-              onOpenDate={setOpenDate}
-              onUpdateDescription={handleDescriptionChange}
-              onUpdateLabels={handleChangeCheckbox}
-              onUpdateDueDate={setTaskDueDate}
-              onSaveDate={handleSaveDate}
-              onRemoveDate={handleRemoveDate}
-              isEditingDescription={isEditingDescription}
-              onEditingDescription={setIsEditingDescription}
-              comments={taskComment}
-              isEditComment={isEditingComment}
-              onEditComment={setIsEditingComment}
-              onUpdateComment={handleCommentChange}
-              isOpenRemoveCard={isOpenRemoveCard}
-              onOpenRemoveCard={setOpenRemoveCard}
-              onRemoveCard={handleRemoveTask}
-            />
-          )}
-        </Modal>
+    <Flex direction='column' gap='lg'>
+      <Flex gap='lg' align='flex-start' style={{ overflowX: 'auto', padding: '1rem 0' }}>
+        {lists.map((list) => (
+          <Column
+            key={list.id}
+            list={list}
+            isLoading={isLoadingColumns}
+            isAddingTask={addingTaskStates[list.id]}
+            taskName={taskNameStates[list.id]}
+            onAddTask={(taskName) => handleAddTask(list.id, taskName)}
+            onTaskDrop={handleTaskDrop}
+            onIsAddingTask={(value) => setAddingTaskStates(list.id, value)}
+            onTaskName={(name) => setTaskNameStates(list.id, name)}
+            onOpenCard={(task) => handleTaskClick(task, list.id)}
+          />
+        ))}
       </Flex>
-    </Box>
+      <Modal
+        open={isModalOpen}
+        onClose={handleCloseModal}
+        value={selectedTask?.title || ''}
+        onChange={handleInputChange}
+      >
+        {selectedTask && (
+          <CardDetail
+            description={taskDescription}
+            labels={taskLabels}
+            checkList={checkList}
+            dueDate={taskDueDate}
+            isOpenLabel={isOpenLabel}
+            isOpenDate={isOpenDate}
+            isLoading={isLoadingTasks}
+            formattedDate={taskDueDate ? new Date(taskDueDate).toLocaleDateString() : ''}
+            onOpenLabel={setOpenLabel}
+            onOpenDate={setOpenDate}
+            onUpdateDescription={handleDescriptionChange}
+            onUpdateLabels={handleChangeCheckbox}
+            onUpdateDueDate={setTaskDueDate}
+            onSaveDate={handleSaveDate}
+            onRemoveDate={handleRemoveDate}
+            isEditingDescription={isEditingDescription}
+            onEditingDescription={setIsEditingDescription}
+            comments={taskComment}
+            isEditComment={isEditingComment}
+            onEditComment={setIsEditingComment}
+            onUpdateComment={handleCommentChange}
+            isOpenRemoveCard={isOpenRemoveCard}
+            onOpenRemoveCard={setOpenRemoveCard}
+            onRemoveCard={handleRemoveTask}
+          />
+        )}
+      </Modal>
+    </Flex>
   )
 }
 

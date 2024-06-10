@@ -17,7 +17,7 @@ const ModalComponent = ({ value, open, isLoading, onClose, children, onChange }:
       classNames={classes}
       opened={open}
       onClose={onClose}
-      title={<InputComponent variant='filled' value={value} onChange={onChange} size='lg' />}
+      title={<InputComponent variant='none-outline' value={value} onChange={onChange} size='lg' />}
       radius='lg'
       size='lg'
     >

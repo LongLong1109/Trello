@@ -39,14 +39,12 @@
     background-color: transparent;
     color: var(--mantine-color-backgrounds-0);
     border-style: none;
-    padding-bottom: 12px;
     height: 60px;
 
     &:focus {
       background-color: white;
       border-style: none;
       border-color: var(--mantine-color-backgrounds-2);
-      padding-bottom: 12px;
       height: 60px;
     }
   }

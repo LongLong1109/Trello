@@ -8,9 +8,9 @@ interface ButtonBase extends ButtonProps {
   onClick: () => void
 }
 
-const ButtonComponent = ({ name, ...rest }: ButtonBase) => {
+const ButtonComponent = ({ name, isLoading, ...rest }: ButtonBase) => {
   return (
-    <Button classNames={classes} {...rest}>
+    <Button classNames={classes} loading={isLoading} {...rest}>
       {name}
     </Button>
   )

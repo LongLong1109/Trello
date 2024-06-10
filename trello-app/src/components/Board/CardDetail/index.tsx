@@ -129,7 +129,7 @@ const CardDetail = ({
             <Skeleton height={30} mb='10' />
           ) : (
             labels.length > 0 && (
-              <Title c='backgrounds.8' size='h2' mb='10'>
+              <Title c='backgrounds.8' order={6} mb='10'>
                 Labels
               </Title>
             )
@@ -150,15 +150,10 @@ const CardDetail = ({
           ) : (
             dueDate && (
               <>
-                <Title c='backgrounds.8' size='h2' mb='10' mt='10'>
+                <Title c='backgrounds.8' order={6} mb='10' mt='10'>
                   Due date
                 </Title>
-                <Badge
-                  variant='light'
-                  radius='xs'
-                  color='gray'
-                  c={checkDateOverdue ? 'red' : 'blue'}
-                >
+                <Badge radius='xs' color={checkDateOverdue ? 'red' : 'blue'}>
                   {taskDueDate.toLocaleDateString()} {checkDateOverdue && 'overdue'}
                 </Badge>
               </>
@@ -166,7 +161,7 @@ const CardDetail = ({
           )}
         </Flex>
         <Paper>
-          <Title c='backgrounds.8' size='h2' mb='10'>
+          <Title c='backgrounds.8' order={6} mb='10'>
             Description
           </Title>
           {isLoading ? (
@@ -181,14 +176,14 @@ const CardDetail = ({
               w='100%'
             />
           ) : (
-            <Paper onClick={handleDescriptionUpdated} mb='sm' w='100%' p='20' bg='backgrounds.1'>
+            <Paper onClick={handleDescriptionUpdated} mb='sm' w='100%' p='10' bg='backgrounds.1'>
               {description || 'Add a more detailed description...'}
             </Paper>
           )}
         </Paper>
 
         <Paper>
-          <Title c='backgrounds.8' size='h2' mt='20' mb='10'>
+          <Title c='backgrounds.8' order={6} mt='20' mb='10'>
             Comment
           </Title>
           {isLoading ? (
@@ -211,7 +206,7 @@ const CardDetail = ({
       </Flex>
 
       <Flex direction='column' gap='10' w='30%'>
-        <Title c='backgrounds.8' size='h2'>
+        <Title c='backgrounds.8' order={6}>
           Add to card
         </Title>
         <Popover
@@ -252,15 +247,24 @@ const CardDetail = ({
           </Paper>
         </Popover>
 
-        <Modal opened={isOpenRemoveCard} onClose={handleCloseRemoveCard} centered>
-          <Title c='backgrounds.8' size='16' fw='500' style={{ textAlign: 'center' }} pb='10'>
-            Are you to remove this card?
-          </Title>
-          <Flex p='12' justify='space-between'>
-            <Button color='red' onClick={handleRemoveCard} name='Cancel' />
-            <Button color='red' onClick={onRemoveCard} name='Remove Card' />
-          </Flex>
-        </Modal>
+        <Modal.Root opened={isOpenRemoveCard} onClose={handleCloseRemoveCard} centered>
+          <Modal.Overlay />
+          <Modal.Content>
+            <Modal.Header>
+              <Flex align='center' justify='space-between' w='100%'>
+                <Paper />
+                <Modal.Title>Are you sure to remove this card</Modal.Title>
+                <Modal.CloseButton m='0' />
+              </Flex>
+            </Modal.Header>
+            <Modal.Body>
+              <Flex p='12' justify='space-between'>
+                <Button variant='light' onClick={handleRemoveCard} name='Cancel' />
+                <Button color='red' onClick={onRemoveCard} name='Remove Card' />
+              </Flex>
+            </Modal.Body>
+          </Modal.Content>
+        </Modal.Root>
         <Button
           size='md'
           radius='sm'

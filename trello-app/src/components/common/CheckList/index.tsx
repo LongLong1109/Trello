@@ -19,7 +19,6 @@ const CheckListComponent = ({ items, onItemChange }: CheckboxListProps) => (
       <Checkbox
         classNames={classes}
         mt='xs'
-        ml={33}
         label={<Stack bg={label}></Stack>}
         key={key}
         value={value}
