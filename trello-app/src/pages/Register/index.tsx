@@ -1,6 +1,6 @@
 import { useTransition } from 'react'
 import { useForm } from '@mantine/form'
-import { Container, Paper, TextInput, Button, Flex, Text, Image, Title, Box } from '@mantine/core'
+import { Container, Paper, TextInput, Button, Flex, Text, Image, Title } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 

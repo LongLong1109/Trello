@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Flex, Box } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { useListState } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
 
