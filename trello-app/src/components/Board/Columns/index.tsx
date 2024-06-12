@@ -1,9 +1,21 @@
-import { useCallback } from 'react'
+import { useCallback, KeyboardEvent, DragEvent } from 'react'
 import { IconPlus } from '@tabler/icons-react'
-import { Box, Title, Card as MantineCard, Flex, Paper, CloseButton, Skeleton } from '@mantine/core'
+import {
+  Box,
+  Title,
+  Card as MantineCard,
+  Flex,
+  Paper,
+  CloseButton,
+  Skeleton,
+  FocusTrap,
+} from '@mantine/core'
 
 // interfaces
 import { Task, ListTask } from '@/interfaces/Task'
+
+// constants
+import { KEYBOARD } from '@/constants/keyboard'
 
 // components
 import Card from '../Card'
@@ -42,16 +54,15 @@ const Column = ({
     if (taskName.trim()) {
       onAddTask(taskName)
       onTaskName('')
-      onIsAddingTask(false)
     }
-  }, [taskName, onAddTask, onTaskName, onIsAddingTask])
+  }, [taskName, onAddTask, onTaskName])
 
-  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault()
   }
 
   const handleDrop = useCallback(
-    (event: React.DragEvent<HTMLDivElement>, targetIndex: number) => {
+    (event: DragEvent<HTMLDivElement>, targetIndex: number) => {
       event.preventDefault()
       const taskId = parseInt(event.dataTransfer.getData('taskId'), 10)
       const sourceListId = parseInt(event.dataTransfer.getData('sourceListId'), 10)
@@ -61,7 +72,7 @@ const Column = ({
   )
 
   const handleDragStart = useCallback(
-    (event: React.DragEvent<HTMLDivElement>, taskId: number) => {
+    (event: DragEvent<HTMLDivElement>, taskId: number) => {
       event.dataTransfer.setData('taskId', taskId.toString())
       event.dataTransfer.setData('sourceListId', id.toString())
     },
@@ -75,6 +86,14 @@ const Column = ({
   const handleCloseAddTask = () => {
     onIsAddingTask(false)
     onTaskName('')
+  }
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === KEYBOARD.ENTER) {
+      handleAddTask()
+    } else if (event.key === KEYBOARD.ESC) {
+      handleCloseAddTask()
+    }
   }
 
   return (
