@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Flex } from '@mantine/core'
+import { Flex, Card, Skeleton } from '@mantine/core'
 import { useListState } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
 
@@ -350,20 +350,26 @@ const Home = () => {
   return (
     <Flex direction='column' gap='lg'>
       <Flex gap='lg' align='flex-start' style={{ overflowX: 'auto', padding: '1rem 0' }}>
-        {lists.map((list) => (
-          <Column
-            key={list.id}
-            list={list}
-            isLoading={isLoadingColumns}
-            isAddingTask={addingTaskStates[list.id]}
-            taskName={taskNameStates[list.id]}
-            onAddTask={(taskName) => handleAddTask(list.id, taskName)}
-            onTaskDrop={handleTaskDrop}
-            onIsAddingTask={(value) => setAddingTaskStates(list.id, value)}
-            onTaskName={(name) => setTaskNameStates(list.id, name)}
-            onOpenCard={(task) => handleTaskClick(task, list.id)}
-          />
-        ))}
+        {isLoadingColumns && isLoadingTasks ? (
+          <Card padding='xs' radius='lg' bg='backgrounds.1' w='270'>
+            <Skeleton height={30} />
+          </Card>
+        ) : (
+          lists.map((list) => (
+            <Column
+              key={list.id}
+              list={list}
+              isLoading={isLoadingColumns}
+              isAddingTask={addingTaskStates[list.id]}
+              taskName={taskNameStates[list.id]}
+              onAddTask={(taskName) => handleAddTask(list.id, taskName)}
+              onTaskDrop={handleTaskDrop}
+              onIsAddingTask={(value) => setAddingTaskStates(list.id, value)}
+              onTaskName={(name) => setTaskNameStates(list.id, name)}
+              onOpenCard={(task) => handleTaskClick(task, list.id)}
+            />
+          ))
+        )}
       </Flex>
       <Modal
         open={isModalOpen}
