@@ -1,6 +1,10 @@
-import React from 'react'
-import { Card, Text, Paper, Flex, Badge } from '@mantine/core'
+import { ChangeEvent, DragEvent } from 'react'
+import { Card, Text, Paper, Flex, Badge, Checkbox } from '@mantine/core'
 import { IconMessagePlus, IconFileDescription } from '@tabler/icons-react'
+
+// style
+import classes from './Card.module.css'
+
 // interface
 import { Task } from '@/interfaces/Task'
 
@@ -9,14 +13,18 @@ import { isDateOverdue, formatDate } from '@/utils/validateDate'
 
 interface TaskCardProps {
   task: Task
-  onDragStart: (event: React.DragEvent<HTMLDivElement>, taskId: number) => void
+  onCheckboxClick: (event: React.MouseEvent<HTMLDivElement>) => void
+  onChecked: (event: ChangeEvent<HTMLInputElement>) => void
+  onDragStart: (event: DragEvent<HTMLDivElement>, taskId: number) => void
   onOpenCard: (value: Task) => void
 }
 
-const TaskCard = ({ task, onDragStart, onOpenCard }: TaskCardProps) => {
-  const { id, title, labels, description, comment, dueDate } = task
-  const taskDueDate = new Date(dueDate ?? '')
-  const checkDateOverdue = isDateOverdue(taskDueDate)
+const TaskCard = ({ task, onDragStart, onOpenCard, onChecked, onCheckboxClick }: TaskCardProps) => {
+  const { id, title, labels, description, comment, dateRange, checked } = task
+  const [firstValue, secondValue] = dateRange || []
+  const startDate = firstValue && new Date(firstValue)
+  const dueDate = secondValue && new Date(secondValue)
+  const checkDateOverdue = dueDate ? isDateOverdue(dueDate) : false
 
   const handleCardClick = () => {
     onOpenCard(task)
@@ -26,28 +34,48 @@ const TaskCard = ({ task, onDragStart, onOpenCard }: TaskCardProps) => {
     <Card
       data-testid='card-id'
       shadow='md'
-      padding='lg'
+      padding='10'
       mb='10'
       draggable
       onDragStart={(event) => onDragStart(event, id)}
       onClick={handleCardClick}
+      className={classes.card}
+      withBorder
     >
-      <Text fs='500' pb='5'>
+      <Text fs='500' mb='5'>
         {title}
       </Text>
       {labels && (
-        <Flex gap='5'>
+        <Flex gap='5' mb='10' wrap='wrap' w='200'>
           {labels.map((label) => (
-            <Paper w='30' h='10' radius='4' bg={label} key={label} />
+            <Paper maw='100' mah='30' p='2' radius='4' bg={label.label} key={label.key}>
+              <Text p='2' size='xs'>
+                {label.name}
+              </Text>
+            </Paper>
           ))}
         </Flex>
       )}
-      <Flex gap='10' align='center' mt='5'>
-        {dueDate && (
-          <Badge color={checkDateOverdue ? 'red' : 'blue'} radius='xs' tt='capitalize'>
-            {formatDate(taskDueDate)}
+      <Flex gap='10' align='center'>
+        {startDate && dueDate ? (
+          <Badge
+            variant='light'
+            radius='sm'
+            color={checked ? 'green' : checkDateOverdue ? 'red' : 'gray'}
+            tt='capitalize'
+            h='22'
+            onClick={onCheckboxClick}
+          >
+            <Checkbox
+              className={classes.checkbox}
+              size='xs'
+              color={checked ? 'green' : checkDateOverdue ? 'red' : 'green'}
+              label={`${formatDate(startDate)} - ${formatDate(dueDate)}`}
+              checked={checked}
+              onChange={onChecked}
+            />
           </Badge>
-        )}
+        ) : null}
         {description && <IconFileDescription size='14' />}
         {comment && <IconMessagePlus size='14' />}
       </Flex>

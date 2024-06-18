@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://api-task-management.onrender.com'
+export const BASE_URL = 'http://localhost:3000'

@@ -1,0 +1,16 @@
+.card {
+  border-width: 2px;
+  border-color: transparent;
+
+  &:hover {
+    cursor: pointer;
+    border-color: var(--mantine-color-backgrounds-2);
+    border-width: 2px;
+  }
+}
+
+.checkbox {
+  border-width: 0;
+  font-weight: 500;
+  cursor: pointer;
+}

@@ -1,26 +1,27 @@
 import { useMutation, UseQueryOptions } from '@tanstack/react-query'
+import { useQueries } from '@tanstack/react-query'
 
 // interface
 import { Task, TasksResponse } from '@/interfaces/Task'
 import { ApiErrorResponse } from '@/interfaces/Error'
 import { ColumnsResponse } from '@/interfaces/Board'
-import { useQueries } from '@tanstack/react-query'
+
+// type
+import { TaskPayload } from '@/types/Task'
 
 // services
-import fetchApi from '@/services/fetchApis'
-
-export type TaskPayload = Omit<Task, 'id'>
+import { getTasks, getColumns, postTask, putTask, deleteTask } from '@/services/boardApi'
 
 export const useGetTasks = (): UseQueryOptions<TasksResponse, ApiErrorResponse> => ({
   queryKey: ['tasks'],
-  queryFn: async () => await fetchApi.get(`/tasks`),
+  queryFn: getTasks,
 })
 
 export const useGetColumns = (
   columnId: string,
 ): UseQueryOptions<ColumnsResponse, ApiErrorResponse> => ({
   queryKey: ['lists', columnId],
-  queryFn: async () => await fetchApi.get(`/boards?columnId=${columnId}`),
+  queryFn: () => getColumns(columnId),
 })
 
 export const useGetBoards = (columnId: string) => {
@@ -42,36 +43,44 @@ export const useGetBoards = (columnId: string) => {
 }
 
 export const usePostTask = () => {
-  const { data, error, ...rest } = useMutation<TasksResponse, ApiErrorResponse, TaskPayload>({
-    mutationFn: async (payload) => await fetchApi.post('/tasks', payload),
+  const { data, error, mutate, ...rest } = useMutation<
+    TasksResponse,
+    ApiErrorResponse,
+    TaskPayload
+  >({
+    mutationFn: postTask,
   })
 
   return {
     ...rest,
-    data: data?.data,
+    task: data?.data,
+    createTask: mutate,
     error: error?.message || '',
   }
 }
 
 export const usePutTask = () => {
-  const { data, error, ...rest } = useMutation<TasksResponse, ApiErrorResponse, Task>({
-    mutationFn: async ({ id, ...payload }) => await fetchApi.put(`/tasks/${id}`, payload),
+  const { data, error, mutate, ...rest } = useMutation<TasksResponse, ApiErrorResponse, Task>({
+    mutationFn: putTask,
   })
 
   return {
     ...rest,
     data: data?.data,
+    updateTask: mutate,
     error: error?.message || '',
   }
 }
 
 export const useRemoveTask = () => {
-  const { data, error, ...rest } = useMutation({
-    mutationFn: async (id: number) => await fetchApi.delete(`/tasks/${id}`),
+  const { data, error, mutate, ...rest } = useMutation({
+    mutationFn: deleteTask,
   })
+
   return {
     ...rest,
     data: data?.data,
+    deleteTask: mutate,
     error: error?.message || '',
   }
 }

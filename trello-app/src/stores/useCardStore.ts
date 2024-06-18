@@ -1,18 +1,24 @@
-import { create } from 'zustand'
+import { createWithEqualityFn } from 'zustand/traditional'
 import useListStore from '@/stores/useListStore'
+import { shallow } from 'zustand/shallow'
+import { DatesRangeValue } from '@mantine/dates'
 
 // interface
 import { TaskListItem, Task } from '@/interfaces/Task'
+import { CheckboxItem } from '@/components/common'
+
+import { TODAY, NEXT_DAY } from '@/constants/dateTime'
 
 type TaskStoreState = {
   tasks: Task[]
   addingTaskStates: { [key: number]: boolean }
   taskNameStates: { [key: number]: string }
-  taskDueDate: Date | null
+  dateRange: DatesRangeValue
   selectedTask: TaskListItem | null
-  taskLabels: string[]
+  taskLabels: CheckboxItem[]
   taskDescription: string
   taskComment: string
+  checked: boolean
 }
 
 type TaskStoreActions = {
@@ -20,48 +26,54 @@ type TaskStoreActions = {
   addTask: (id: number, title: string) => void
   setAddingTaskStates: (listId: number, value: boolean) => void
   setTaskNameStates: (listId: number, name: string) => void
-  setTaskDueDate: (date: Date | null) => void
   setSelectedTask: (task: TaskListItem) => void
-  setTaskLabels: (labels: string[]) => void
+  setTaskLabels: (labels: CheckboxItem[]) => void
   setTaskDescription: (description: string) => void
   setTaskComment: (comment: string) => void
+  setChecked: (value: boolean) => void
+  setDateRange: (date: DatesRangeValue) => void
 }
 
 type TaskStoreType = TaskStoreState & { taskActions: TaskStoreActions }
 
-const INITIAL_TASK_STORE = {
+const INITIAL_TASK_STORE: TaskStoreState = {
   tasks: [],
   addingTaskStates: {},
   taskNameStates: {},
-  taskDueDate: null,
+  dateRange: [TODAY, NEXT_DAY],
   selectedTask: null,
   taskLabels: [],
   taskDescription: '',
   taskComment: '',
+  checked: false,
 }
 
-const useTaskStore = create<TaskStoreType>((set) => ({
-  ...INITIAL_TASK_STORE,
-  taskActions: {
-    setTasks: (tasks) => set({ tasks }),
-    addTask: (listId, taskName) => {
-      const listActions = useListStore.getState().listActions
-      listActions.addTask(listId, taskName)
+const useTask = createWithEqualityFn<TaskStoreType>(
+  (set) => ({
+    ...INITIAL_TASK_STORE,
+    taskActions: {
+      setTasks: (tasks) => set({ tasks }),
+      addTask: (listId, taskName) => {
+        const listActions = useListStore.getState().listActions
+        listActions.addTask(listId, taskName)
+      },
+      setAddingTaskStates: (listId, value) =>
+        set((state) => ({
+          addingTaskStates: { ...state.addingTaskStates, [listId]: value },
+        })),
+      setTaskNameStates: (listId, name) =>
+        set((state) => ({
+          taskNameStates: { ...state.taskNameStates, [listId]: name },
+        })),
+      setSelectedTask: (task) => set({ selectedTask: task }),
+      setTaskLabels: (labels) => set({ taskLabels: labels }),
+      setTaskDescription: (description) => set({ taskDescription: description }),
+      setTaskComment: (comment) => set({ taskComment: comment }),
+      setChecked: (value) => set({ checked: value }),
+      setDateRange: (date) => set({ dateRange: date }),
     },
-    setAddingTaskStates: (listId, value) =>
-      set((state) => ({
-        addingTaskStates: { ...state.addingTaskStates, [listId]: value },
-      })),
-    setTaskNameStates: (listId, name) =>
-      set((state) => ({
-        taskNameStates: { ...state.taskNameStates, [listId]: name },
-      })),
-    setTaskDueDate: (date) => set({ taskDueDate: date }),
-    setSelectedTask: (task) => set({ selectedTask: task }),
-    setTaskLabels: (labels) => set({ taskLabels: labels }),
-    setTaskDescription: (description) => set({ taskDescription: description }),
-    setTaskComment: (comment) => set({ taskComment: comment }),
-  },
-}))
+  }),
+  shallow,
+)
 
-export default useTaskStore
+export default useTask

@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import { ChangeEvent } from 'react'
-import { Flex, Paper, Title, Textarea, Modal, Badge, Skeleton } from '@mantine/core'
+import { Flex, Paper, Title, Textarea, Modal, Badge, Skeleton, Checkbox, Text } from '@mantine/core'
 import { IconCalendar, IconTagStarred, IconMinus } from '@tabler/icons-react'
+import { DatesRangeValue } from '@mantine/dates'
 
 // utils
 import { isDateOverdue, formatDate } from '@/utils/validateDate'
@@ -9,80 +10,79 @@ import { isDateOverdue, formatDate } from '@/utils/validateDate'
 // components
 import { Labels, Button, DatePicker, Popover, CheckboxItem } from '../../common'
 
+// type
+import { ModalType, MODAL_NAME } from '@/types/Modal'
+
 export interface CardDetailProps {
-  labels: string[]
+  labels: CheckboxItem[]
   description: string
   checkList: CheckboxItem[]
-  dueDate: Date | null
-  isOpenLabel: boolean
-  isOpenDate: boolean
-  formattedDate: string
-  isEditingDescription: boolean
+  dateRange: DatesRangeValue
   comments: string
-  isEditComment: boolean
-  isOpenRemoveCard: boolean
+  modalState: ModalType
   isLoading: boolean
-  onEditComment: (value: boolean) => void
-  onEditingDescription: (value: boolean) => void
+  checked: boolean
+  onChecked: (event: ChangeEvent<HTMLInputElement>) => void
   onUpdateComment: (value: string) => void
-  onOpenLabel: (value: boolean) => void
-  onOpenDate: (value: boolean) => void
   onUpdateDescription: (description: string) => void
   onUpdateLabels: (index: number, checked: boolean) => void
-  onUpdateDueDate: (date: Date | null) => void
+  onUpdateDueDate: (date: DatesRangeValue) => void
   onSaveDate: () => void
   onRemoveDate: () => void
-  onOpenRemoveCard: (value: boolean) => void
   onRemoveCard: () => void
+  setModalStateByKey: (key: ModalType) => void
 }
 
 const CardDetail = ({
   labels,
   description,
   checkList,
-  dueDate,
-  isOpenLabel,
-  isOpenDate,
-  formattedDate,
-  isEditingDescription,
+  dateRange,
   comments,
-  isEditComment,
+  modalState,
   isLoading,
-  onEditComment,
+  checked,
+  onChecked,
   onUpdateComment,
-  onEditingDescription,
-  onOpenLabel,
-  onOpenDate,
   onUpdateDescription,
   onUpdateLabels,
   onUpdateDueDate,
   onSaveDate,
   onRemoveDate,
-  isOpenRemoveCard,
-  onOpenRemoveCard,
   onRemoveCard,
+  setModalStateByKey,
 }: CardDetailProps) => {
-  const taskDueDate = new Date(dueDate ?? '')
-  const checkDateOverdue = isDateOverdue(taskDueDate)
+  const isLabelModalOpen = modalState === MODAL_NAME.LABEL
+  const isDateModalOpen = modalState === MODAL_NAME.DATE
+  const isRemoveCardModalOpen = modalState === MODAL_NAME.REMOVE_CARD
+  const isEditDescriptionOpen = modalState === MODAL_NAME.EDIT_DESCRIPTION
+  const isEditCommentOpen = modalState === MODAL_NAME.EDIT_COMMENT
+
+  const [firstValue, lastValue] = dateRange || []
+  const startDate = firstValue && new Date(firstValue)
+  const dueDate = lastValue && new Date(lastValue)
+
+  const validDate = startDate && dueDate
+  const checkDateOverdue = dueDate ? isDateOverdue(dueDate) : false
 
   const handleOpenLabel = () => {
-    onOpenLabel(true)
+    setModalStateByKey(MODAL_NAME.LABEL)
   }
 
   const handleCloseLabel = () => {
-    onOpenLabel(false)
+    setModalStateByKey(null)
   }
 
   const handleOpenDueDate = () => {
-    onOpenDate(true)
+    setModalStateByKey(MODAL_NAME.DATE)
   }
 
   const handleCloseDueDate = () => {
-    onOpenDate(false)
+    setModalStateByKey(null)
   }
 
   const handleDescriptionUpdated = () => {
-    onEditingDescription(true)
+    setModalStateByKey(MODAL_NAME.EDIT_DESCRIPTION)
     onUpdateDescription(description)
   }
 
@@ -93,11 +93,11 @@ const CardDetail = ({
   }
 
   const handleDescriptionBlur = () => {
-    onEditingDescription(false)
+    setModalStateByKey(null)
   }
 
   const handleCommentsUpdated = () => {
-    onEditComment(true)
+    setModalStateByKey(MODAL_NAME.EDIT_COMMENT)
     onUpdateComment(comments)
   }
 
@@ -106,19 +106,19 @@ const CardDetail = ({
   }
 
   const handleCommentsBlur = () => {
-    onEditComment(false)
+    setModalStateByKey(null)
   }
 
   const handleOpenRemoveCard = () => {
-    onOpenRemoveCard(true)
+    setModalStateByKey(MODAL_NAME.REMOVE_CARD)
   }
 
   const handleCloseRemoveCard = () => {
-    onOpenRemoveCard(false)
+    setModalStateByKey(null)
   }
 
   const handleRemoveCard = () => {
-    onOpenRemoveCard(false)
+    setModalStateByKey(null)
   }
 
   return (
@@ -134,11 +134,17 @@ const CardDetail = ({
               </Title>
             )
           )}
-          <Flex gap='5'>
+          <Flex gap='5' wrap='wrap' w='300'>
             {isLoading ? (
               <Skeleton width={50} height={30} />
             ) : (
-              labels.map((label) => <Paper w='50' h='30' radius='4' bg={label} key={label} />)
+              labels.map((label) => (
+                <Paper maw='100' mah='30' p='2' radius='4' bg={label.label} key={label.key}>
+                  <Text p='2' size='xs'>
+                    {label.name}
+                  </Text>
+                </Paper>
+              ))
             )}
           </Flex>
 
@@ -147,19 +153,33 @@ const CardDetail = ({
               <Skeleton height={30} mb='10' mt='10' />
               <Skeleton width={100} height={24} />
             </>
-          ) : (
-            dueDate && (
-              <>
-                <Title c='backgrounds.8' order={6} mb='10' mt='10'>
-                  Due date
-                </Title>
-                <Badge radius='xs' color={checkDateOverdue ? 'red' : 'blue'} tt='capitalize'>
-                  {formatDate(taskDueDate)}
-                  {checkDateOverdue && ', overdue'}
-                </Badge>
-              </>
-            )
-          )}
+          ) : validDate ? (
+            <>
+              <Title c='backgrounds.8' order={6} mb='10' mt='10'>
+                Due date
+              </Title>
+              <Flex align='center' gap='5'>
+                <Checkbox checked={checked} onChange={onChecked} />
+                <Paper bg='backgrounds.5' pt='2' pb='2' pl='10' pr='10'>
+                  <Flex align='center' justify='space-between' gap='10'>
+                    <Title c='backgrounds.8' order={6} fw='600'>
+                      {formatDate(startDate)} - {formatDate(dueDate)}
+                    </Title>
+
+                    {(checked || checkDateOverdue) && (
+                      <Badge
+                        radius='xs'
+                        color={checked ? 'green' : checkDateOverdue ? 'red' : 'green'}
+                        tt='capitalize'
+                      >
+                        {checked ? 'complete' : checkDateOverdue ? 'overdue' : ''}
+                      </Badge>
+                    )}
+                  </Flex>
+                </Paper>
+              </Flex>
+            </>
+          ) : null}
         </Flex>
         <Paper>
           <Title c='backgrounds.8' order={6} mb='10'>
@@ -167,7 +187,7 @@ const CardDetail = ({
           </Title>
           {isLoading ? (
             <Skeleton height={100} mb='sm' />
-          ) : isEditingDescription ? (
+          ) : isEditDescriptionOpen ? (
             <Textarea
               value={description}
               onChange={handleDescriptionChange}
@@ -189,7 +209,7 @@ const CardDetail = ({
           </Title>
           {isLoading ? (
             <Skeleton height={100} mb='sm' />
-          ) : isEditComment ? (
+          ) : isEditCommentOpen ? (
             <Textarea
               value={comments}
               onChange={handleCommentsChange}
@@ -213,7 +233,7 @@ const CardDetail = ({
         <Popover
           name='Labels'
           icon={<IconTagStarred size='16' />}
-          open={isOpenLabel}
+          open={isLabelModalOpen}
           onOpen={handleOpenLabel}
           onClose={handleCloseLabel}
         >
@@ -229,7 +249,7 @@ const CardDetail = ({
         <Popover
           name='Date'
           icon={<IconCalendar size='16' />}
-          open={isOpenDate}
+          open={isDateModalOpen}
           onOpen={handleOpenDueDate}
           onClose={handleCloseDueDate}
         >
@@ -237,29 +257,35 @@ const CardDetail = ({
             {isLoading ? (
               <Skeleton height={40} />
             ) : (
-              <DatePicker
-                value={dueDate}
-                onChange={onUpdateDueDate}
-                formattedDate={formattedDate}
-                onSave={onSaveDate}
-                onRemove={onRemoveDate}
-              />
+              <>
+                <Title ta='center' c='backgrounds.8' order={5} pb='10'>
+                  Date
+                </Title>
+                <DatePicker
+                  dateRange={dateRange}
+                  onChangeDateRange={onUpdateDueDate}
+                  onSave={onSaveDate}
+                  onRemove={onRemoveDate}
+                />
+              </>
             )}
           </Paper>
         </Popover>
 
-        <Modal.Root opened={isOpenRemoveCard} onClose={handleCloseRemoveCard} centered>
+        <Modal.Root opened={isRemoveCardModalOpen} onClose={handleCloseRemoveCard} centered>
           <Modal.Overlay />
           <Modal.Content>
             <Modal.Header>
               <Flex align='center' justify='space-between' w='100%'>
-                <Paper />
-                <Modal.Title>Are you sure to remove this card</Modal.Title>
+                <Modal.Title fw='700'>Remove?</Modal.Title>
                 <Modal.CloseButton m='0' />
               </Flex>
             </Modal.Header>
             <Modal.Body>
-              <Flex p='12' justify='space-between'>
+              <Modal.Title ta='center' pb='20'>
+                Are you sure to remove this card?
+              </Modal.Title>
+              <Flex p='12' justify='flex-end' gap='20'>
                 <Button variant='light' onClick={handleRemoveCard} name='Cancel' />
                 <Button color='red' onClick={onRemoveCard} name='Remove Card' />
               </Flex>

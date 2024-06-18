@@ -1,5 +1,6 @@
-import { create } from 'zustand'
+import { createWithEqualityFn } from 'zustand/traditional'
 import { ListTask } from '@/interfaces/Task'
+import { shallow } from 'zustand/shallow'
 
 type ListStoreState = {
   lists: ListTask[]
@@ -21,20 +22,23 @@ const INITIAL_LIST_STORE = {
   isAddingList: false,
 }
 
-const useListStore = create<ListStoreType>((set) => ({
-  ...INITIAL_LIST_STORE,
-  listActions: {
-    setLists: (lists) => set({ lists }),
-    addTask: (listId, taskName) =>
-      set((state) => ({
-        lists: state.lists.map((list) =>
-          list.id === listId
-            ? { ...list, tasks: [...list.tasks, { id: state.taskCounter, title: taskName }] }
-            : list,
-        ),
-        taskCounter: state.taskCounter + 1,
-      })),
-  },
-}))
+const useList = createWithEqualityFn<ListStoreType>(
+  (set) => ({
+    ...INITIAL_LIST_STORE,
+    listActions: {
+      setLists: (lists) => set({ lists }),
+      addTask: (listId, taskName) =>
+        set((state) => ({
+          lists: state.lists.map((list) =>
+            list.id === listId
+              ? { ...list, tasks: [...list.tasks, { id: state.taskCounter, title: taskName }] }
+              : list,
+          ),
+          taskCounter: state.taskCounter + 1,
+        })),
+    },
+  }),
+  shallow,
+)
 
-export default useListStore
+export default useList

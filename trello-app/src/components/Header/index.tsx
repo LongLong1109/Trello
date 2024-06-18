@@ -15,9 +15,6 @@ import {
 import { IconSun, IconMoonStars } from '@tabler/icons-react'
 import classes from './Header.module.css'
 
-// constants
-import { menuList } from '@/constants/menuList'
-
 // interface
 import { BaseUserInfo } from '@/interfaces/User'
 
@@ -62,7 +59,12 @@ const HeaderComponent = ({
   }
 
   const handleCloseSignOut = () => {
+    onClose()
     onConfirmSignOut(false)
+  }
+
+  const handleCloseModal = () => {
+    !isOpenSignOut && onClose()
   }
 
   return (
@@ -76,7 +78,7 @@ const HeaderComponent = ({
           onLabel={sunIcon}
           offLabel={moonIcon}
         />
-        <Menu opened={open} onClose={onClose}>
+        <Menu opened={open} onClose={handleCloseModal}>
           <Menu.Target>
             <Group onClick={onOpen} style={{ cursor: 'pointer' }}>
               <Avatar radius='xl' />
@@ -98,26 +100,7 @@ const HeaderComponent = ({
               <Menu.Label tt='capitalize' c='backgrounds.0'>
                 Hello, {userName}
               </Menu.Label>
-              {menuList.map((item, index) => (
-                <Menu.Item key={index}>{item.label}</Menu.Item>
-              ))}
               <Menu.Divider />
-              <Modal.Root opened={isOpenSignOut} onClose={handleCloseSignOut} centered>
-                <Modal.Overlay />
-                <Modal.Content>
-                  <Modal.Header>
-                    <Flex align='center' justify='center' w='100%'>
-                      <Modal.Title>Are you sure to sign out of the app?</Modal.Title>
-                    </Flex>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <Flex p='12' justify='space-between'>
-                      <Button variant='light' onClick={handleCloseSignOut} name='Back' />
-                      <Button color='blue' onClick={onLogout} name='Sign Out' />
-                    </Flex>
-                  </Modal.Body>
-                </Modal.Content>
-              </Modal.Root>
               <Button
                 bg='transparent'
                 variant='light'
@@ -126,6 +109,24 @@ const HeaderComponent = ({
               />
             </Paper>
           </Menu.Dropdown>
+
+          <Modal.Root opened={isOpenSignOut} onClose={handleCloseSignOut} centered>
+            <Modal.Overlay />
+            <Modal.Content>
+              <Modal.Header>
+                <Modal.Title fw='700'>Sign Out?</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Modal.Title ta='center' pb='20'>
+                  Are you sure to sign out of the app?
+                </Modal.Title>
+                <Flex p='12' justify='flex-end' gap='20'>
+                  <Button variant='light' onClick={handleCloseSignOut} name='Cancel' />
+                  <Button color='blue' onClick={onLogout} name='Sign Out' />
+                </Flex>
+              </Modal.Body>
+            </Modal.Content>
+          </Modal.Root>
         </Menu>
       </Stack>
     </Stack>

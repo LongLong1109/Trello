@@ -1,10 +1,14 @@
+import { DatesRangeValue } from '@mantine/dates'
+import { CheckboxItem } from '@/components/common'
+
 export interface Task {
   id: number
   title: string
-  labels?: string[]
+  labels?: CheckboxItem[]
   description?: string
-  dueDate?: Date | null
+  dateRange?: DatesRangeValue
   comment?: string
+  checked?: boolean
   orderId?: number
 }
 

@@ -1,6 +1,16 @@
 import { useTransition } from 'react'
 import { useForm } from '@mantine/form'
-import { Container, Paper, TextInput, Button, Flex, Text, Image, Title } from '@mantine/core'
+import {
+  Container,
+  Paper,
+  TextInput,
+  Button,
+  Flex,
+  Text,
+  Image,
+  Title,
+  Anchor,
+} from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
@@ -11,10 +21,11 @@ import { UserRegister } from '@/interfaces/User'
 import Logo from '/trello.svg'
 
 // store
-import useAuthStore from '@/stores/useAuthStore'
+import useAuth from '@/stores/useAuthStore'
 
 // constants
 import { ENDPOINTS } from '@/constants/endpoint'
+import { PLACEHOLDER } from '@/constants/placeholder'
 
 // utils
 import {
@@ -44,13 +55,13 @@ const RegisterForm = () => {
   })
 
   const navigate = useNavigate()
-  const register = useAuthStore((state) => state.register)
+  const register = useAuth((state) => state.register)
 
   const [isPending, startTransition] = useTransition()
 
-  const handleRegister = (data: UserRegister) => {
+  const handleRegister = (userData: UserRegister) => {
     startTransition(async () => {
-      await register(data)
+      await register(userData)
       navigate(`/${ENDPOINTS.HOME}`)
     })
   }
@@ -69,7 +80,7 @@ const RegisterForm = () => {
             <TextInput
               withAsterisk
               label='First Name'
-              placeholder='Your First Name'
+              placeholder={PLACEHOLDER.FIRST_NAME}
               error={form.errors.firstName}
               mb='lg'
               {...form.getInputProps('firstName')}
@@ -78,7 +89,7 @@ const RegisterForm = () => {
             <TextInput
               withAsterisk
               label='Last Name'
-              placeholder='Your Last Name'
+              placeholder={PLACEHOLDER.LAST_NAME}
               error={form.errors.lastName}
               mb='lg'
               {...form.getInputProps('lastName')}
@@ -88,7 +99,7 @@ const RegisterForm = () => {
               withAsterisk
               type='email'
               label='Email'
-              placeholder='your@email.com'
+              placeholder={PLACEHOLDER.EMAIL}
               error={form.errors.email}
               mb='lg'
               {...form.getInputProps('email')}
@@ -98,7 +109,7 @@ const RegisterForm = () => {
               withAsterisk
               type='password'
               label='Password'
-              placeholder='Password'
+              placeholder={PLACEHOLDER.PASSWORD}
               error={form.errors.password}
               mb='lg'
               {...form.getInputProps('password')}
@@ -111,9 +122,9 @@ const RegisterForm = () => {
 
               <Text>
                 Already have an account?{' '}
-                <Link style={{ color: 'backgrounds.2' }} to={`/${ENDPOINTS.LOGIN}`}>
+                <Anchor component={Link} to={`/${ENDPOINTS.LOGIN}`}>
                   Sign in!
-                </Link>
+                </Anchor>
               </Text>
             </Flex>
           </form>

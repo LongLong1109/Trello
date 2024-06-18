@@ -48,4 +48,18 @@
       height: 60px;
     }
   }
+  &[data-variant='input-modal'] {
+    background-color: transparent;
+    color: var(--mantine-color-backgrounds-0);
+    border-style: none;
+    height: 60px;
+    padding: 0;
+    
+    &:focus {
+      background-color: white;
+      border-style: none;
+      border-color: var(--mantine-color-backgrounds-2);
+      height: 60px;
+    }
+  }
 }

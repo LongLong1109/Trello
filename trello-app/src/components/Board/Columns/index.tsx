@@ -1,4 +1,4 @@
-import { useCallback, KeyboardEvent, DragEvent } from 'react'
+import { useCallback, KeyboardEvent, DragEvent, ChangeEvent } from 'react'
 import { IconPlus } from '@tabler/icons-react'
 import {
   Box,
@@ -36,6 +36,8 @@ interface ColumnProps {
   onIsAddingTask: (value: boolean) => void
   onTaskName: (name: string) => void
   onOpenCard: (value: Task) => void
+  onChecked: (e: ChangeEvent<HTMLInputElement>) => void
+  onCheckboxClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>, task: Task) => void
 }
 
 const Column = ({
@@ -48,6 +50,8 @@ const Column = ({
   onAddTask,
   onTaskDrop,
   onOpenCard,
+  onChecked,
+  onCheckboxClick,
 }: ColumnProps) => {
   const { id, tasks, name } = list
   const handleAddTask = useCallback(() => {
@@ -107,57 +111,55 @@ const Column = ({
       onDragOver={handleDragOver}
       onDrop={(event) => handleDrop(event, tasks.length)}
     >
-      {isLoading ? (
-        <Skeleton height={24} />
-      ) : (
-        <Box>
-          <Title fw='700' c='backgrounds.0' order={5} p='10'>
-            {isLoading ? <Skeleton height={24} /> : name}
-          </Title>
-          {isLoading ? (
-            <>
-              <Skeleton height={50} mb='sm' />
-            </>
-          ) : (
-            tasks.map((task) => (
-              <Card
-                key={task.id}
-                task={task}
-                onDragStart={handleDragStart}
-                onOpenCard={onOpenCard}
-              />
-            ))
-          )}
-          {isAddingTask ? (
-            <Flex direction='column' gap='sm' onKeyDown={handleKeyDown}>
-              <Paper shadow='md' radius='md'>
-                <FocusTrap active={isAddingTask}>
-                  <Input
-                    variant='none-outline'
-                    placeholder='Enter a title for this card...'
-                    value={taskName || ''}
-                    onChange={({ currentTarget: { value } }) => onTaskName(value)}
-                  />
-                </FocusTrap>
-              </Paper>
-              <Flex direction='row' gap='sm' align='center'>
-                <Button onClick={handleAddTask} name='Add Task' />
-                <CloseButton onClick={handleCloseAddTask} />
-              </Flex>
-            </Flex>
-          ) : (
-            <Button
-              w='100%'
-              mt='10'
-              justify='flex-start'
-              variant='primary'
-              leftSection={<IconPlus size='16' />}
-              onClick={handleOpenAddTask}
-              name='Add a Card'
+      <Box>
+        <Title fw='700' c='backgrounds.0' order={5} p='10'>
+          {isLoading ? <Skeleton height={24} /> : name}
+        </Title>
+        {isLoading ? (
+          <>
+            <Skeleton height={50} mb='sm' />
+          </>
+        ) : (
+          tasks.map((task) => (
+            <Card
+              key={task.id}
+              task={task}
+              onDragStart={handleDragStart}
+              onOpenCard={onOpenCard}
+              onChecked={onChecked}
+              onCheckboxClick={(e) => onCheckboxClick(e, task)}
             />
-          )}
-        </Box>
-      )}
+          ))
+        )}
+        {isAddingTask ? (
+          <Flex direction='column' gap='sm' onKeyDown={handleKeyDown}>
+            <Paper shadow='md' radius='md'>
+              <FocusTrap active={isAddingTask}>
+                <Input
+                  variant='none-outline'
+                  placeholder='Enter a title for this card...'
+                  value={taskName || ''}
+                  onChange={({ currentTarget: { value } }) => onTaskName(value)}
+                />
+              </FocusTrap>
+            </Paper>
+            <Flex direction='row' gap='sm' align='center'>
+              <Button onClick={handleAddTask} name='Add Task' />
+              <CloseButton onClick={handleCloseAddTask} />
+            </Flex>
+          </Flex>
+        ) : (
+          <Button
+            w='100%'
+            mt='10'
+            justify='flex-start'
+            variant='primary'
+            leftSection={<IconPlus size='16' />}
+            onClick={handleOpenAddTask}
+            name='Add a Card'
+          />
+        )}
+      </Box>
     </MantineCard>
   )
 }

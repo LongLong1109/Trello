@@ -1,7 +1,17 @@
 import { useTransition } from 'react'
 import { useForm } from '@mantine/form'
 import { Link, useNavigate } from 'react-router-dom'
-import { Container, Paper, Button, TextInput, Flex, Text, Image, Title } from '@mantine/core'
+import {
+  Container,
+  Paper,
+  Button,
+  TextInput,
+  Flex,
+  Text,
+  Image,
+  Title,
+  Anchor,
+} from '@mantine/core'
 
 // interface
 import { UserLogin } from '@/interfaces/User'
@@ -10,10 +20,11 @@ import { UserLogin } from '@/interfaces/User'
 import Logo from '/trello.svg'
 
 // store
-import useAuthStore from '@/stores/useAuthStore'
+import useAuth from '@/stores/useAuthStore'
 
 // constants
 import { ENDPOINTS } from '@/constants/endpoint'
+import { PLACEHOLDER } from '@/constants/placeholder'
 
 // utils
 import { validateEmail, validatePassword } from '@/utils/validateForm'
@@ -22,13 +33,13 @@ import classes from '../pages.module.css'
 
 const Login = () => {
   const navigate = useNavigate()
-  const login = useAuthStore((state) => state.login)
+  const login = useAuth((state) => state.login)
 
   const [isPending, startTransition] = useTransition()
 
-  const handleLogin = async (data: UserLogin) => {
+  const handleLogin = async (userData: UserLogin) => {
     startTransition(async () => {
-      await login(data)
+      await login(userData)
       navigate(`/${ENDPOINTS.HOME}`)
     })
   }
@@ -59,7 +70,7 @@ const Login = () => {
               withAsterisk
               type='email'
               label='Email'
-              placeholder='your@email.com'
+              placeholder={PLACEHOLDER.EMAIL}
               error={form.errors.email}
               mb='lg'
               {...form.getInputProps('email')}
@@ -68,7 +79,7 @@ const Login = () => {
               withAsterisk
               type='password'
               label='Password'
-              placeholder='Password'
+              placeholder={PLACEHOLDER.PASSWORD}
               error={form.errors.password}
               mb='lg'
               {...form.getInputProps('password')}
@@ -81,9 +92,13 @@ const Login = () => {
 
               <Text>
                 Don&apos;t have an account?{' '}
-                <Link style={{ color: 'backgrounds.2' }} to={`/${ENDPOINTS.REGISTER}`}>
+                <Anchor
+                  component={Link}
+                  style={{ color: 'backgrounds.2' }}
+                  to={`/${ENDPOINTS.REGISTER}`}
+                >
                   Sign up now!
-                </Link>
+                </Anchor>
               </Text>
             </Flex>
           </form>

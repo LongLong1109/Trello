@@ -1,15 +1,18 @@
-import { useState, useEffect } from 'react'
-import { Flex, Card, Skeleton } from '@mantine/core'
+import { useState, useEffect, ChangeEvent } from 'react'
+import { Flex } from '@mantine/core'
 import { useListState } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
+import { DatesRangeValue } from '@mantine/dates'
 
 // interface
 import { Task } from '@/interfaces/Task'
+import { ModalType } from '@/types/Modal'
+import { TASK_PROPERTY_KEY } from '@/types/Task'
 
 // store
-import useListStore from '@/stores/useListStore'
-import useTaskStore from '@/stores/useCardStore'
-import useAuthStore from '@/stores/useAuthStore'
+import useList from '@/stores/useListStore'
+import useTask from '@/stores/useCardStore'
+import useAuth from '@/stores/useAuthStore'
 
 // hocs
 import withAuth from '@/hocs/withAuth'
@@ -20,39 +23,46 @@ import { useGetBoards, usePostTask, usePutTask, useRemoveTask } from '@/hooks/us
 // constants
 import { NOTIFICATION_DELETE_CARD } from '@/constants/notification'
 import { INITIAL_CHECKBOX_VALUES } from '@/constants/checkbox'
+import { TODAY, NEXT_DAY } from '@/constants/dateTime'
+
+// utils
+import { removeTaskById, updateTaskTitle, moveTask, updateTaskProperty } from '@/utils/taskUtils'
 
 // component
 import Modal from '@/components/common/Modal'
 import CardDetail from '@/components/Board/CardDetail'
 import Column from '@/components/Board/Columns'
+import { CheckboxItem } from '@/components/common'
 
 const Home = () => {
-  const userAuth = useAuthStore((state) => state.userAuth)
+  const userAuth = useAuth((state) => state.userAuth)
   const userId = userAuth?.user.id || ''
   const { getListColumn, isLoadingColumns, getTasks, isLoadingTasks } = useGetBoards(userId)
-  const { mutate: postTask } = usePostTask()
+  const { createTask } = usePostTask()
 
   // list store
-  const [lists, listActions] = useListStore((state) => [state.lists, state.listActions])
+  const [lists, listActions] = useList((state) => [state.lists, state.listActions])
   const { setLists } = listActions
 
   const [
     addingTaskStates,
     taskNameStates,
-    taskDueDate,
+    dateRange,
     selectedTask,
     taskLabels,
     taskDescription,
     taskComment,
+    checked,
     taskActions,
-  ] = useTaskStore((state) => [
+  ] = useTask((state) => [
     state.addingTaskStates,
     state.taskNameStates,
-    state.taskDueDate,
+    state.dateRange,
     state.selectedTask,
     state.taskLabels,
     state.taskDescription,
     state.taskComment,
+    state.checked,
     state.taskActions,
   ])
 
@@ -60,30 +70,30 @@ const Home = () => {
     addTask,
     setAddingTaskStates,
     setTaskNameStates,
-    setTaskDueDate,
+    setDateRange,
     setSelectedTask,
     setTaskLabels,
     setTaskDescription,
     setTaskComment,
+    setChecked,
   } = taskActions
 
-  const { mutate: updateTask } = usePutTask()
-  const { mutate: deleteTask } = useRemoveTask()
+  const { updateTask } = usePutTask()
+  const { deleteTask } = useRemoveTask()
 
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isOpenLabel, setOpenLabel] = useState(false)
-  const [isOpenDate, setOpenDate] = useState(false)
-  const [isEditingDescription, setIsEditingDescription] = useState(false)
-  const [isOpenRemoveCard, setOpenRemoveCard] = useState(false)
-  const [isEditingComment, setIsEditingComment] = useState(false)
+
+  const [modalState, setModalState] = useState<ModalType>(null)
+
   const [checkList, handlers] = useListState(INITIAL_CHECKBOX_VALUES)
 
   const handleTaskClick = (task: Task, listId: number) => {
     setSelectedTask({ ...task, listId })
     setTaskLabels(task.labels || [])
     setTaskDescription(task.description || '')
-    setTaskDueDate(task.dueDate || null)
+    setDateRange(task.dateRange || [null, null])
     setTaskComment(task.comment || '')
+    setChecked(task.checked || false)
     setIsModalOpen(true)
   }
 
@@ -93,9 +103,10 @@ const Home = () => {
     })
   }
 
-  const updateCheckList = (labels: string[]) => {
+  const updateCheckList = (labels: CheckboxItem[]) => {
     INITIAL_CHECKBOX_VALUES.map((item, index) => {
-      handlers.setItemProp(index, 'checked', labels.includes(item.label))
+      const isChecked = labels.some((label) => label.label === item.label)
+      handlers.setItemProp(index, 'checked', isChecked)
     })
   }
 
@@ -120,7 +131,7 @@ const Home = () => {
 
   const handleAddTask = (listId: number, taskName: string) => {
     addTask(listId, taskName)
-    postTask({ title: taskName, orderId: listId })
+    createTask({ title: taskName, orderId: listId })
   }
 
   /**
@@ -139,13 +150,13 @@ const Home = () => {
 
     // Update the task labels state based on the checkbox state
     checked
-      ? setTaskLabels([...taskLabels, label])
-      : setTaskLabels(taskLabels.filter((l) => l !== label))
+      ? setTaskLabels([...taskLabels, { ...checkList[index], checked }])
+      : setTaskLabels(taskLabels.filter((l) => l.label !== label))
 
     // Update the labels of the selected task
     const updatedLabels = checked
-      ? [...(selectedTask.labels || []), label]
-      : (selectedTask.labels || []).filter((l) => l !== label)
+      ? [...(selectedTask.labels || []), { ...checkList[index], checked }]
+      : (selectedTask.labels || []).filter((l) => l.label !== label)
 
     // Update the selected task with the updated labels
     setSelectedTask({
@@ -159,48 +170,27 @@ const Home = () => {
     setIsModalOpen(false)
   }
 
-  const updateTaskDueDate = (listId: number, taskId: number, dueDate: Date | null) => {
-    setLists(
-      lists.map((list) => {
-        const isTargetList = list.id === listId
-        if (isTargetList) {
-          return {
-            ...list,
-            tasks: list.tasks.map((task) => (task.id === taskId ? { ...task, dueDate } : task)),
-          }
-        }
-        return list
-      }),
-    )
+  const updateTaskDueDate = (listId: number, taskId: number, dateRange: DatesRangeValue) => {
+    setLists(updateTaskProperty(lists, listId, taskId, TASK_PROPERTY_KEY.DUE_DATE, dateRange))
   }
 
   const updateTaskDescription = (listId: number, taskId: number, description: string) => {
     if (!selectedTask) return
 
     setSelectedTask({ ...selectedTask, description, orderId: listId })
-    setLists(
-      lists.map((list) => {
-        const isTargetList = list.id === listId
-        if (isTargetList) {
-          return {
-            ...list,
-            tasks: list.tasks.map((task) => (task.id === taskId ? { ...task, description } : task)),
-          }
-        }
-        return list
-      }),
-    )
+    setLists(updateTaskProperty(lists, listId, taskId, TASK_PROPERTY_KEY.DESCRIPTION, description))
     updateTask({ ...selectedTask, description, orderId: listId })
   }
 
   const handleSaveDate = () => {
     if (selectedTask) {
-      setSelectedTask({ ...selectedTask, dueDate: taskDueDate })
-      updateTaskDueDate(selectedTask.listId, selectedTask.id, taskDueDate)
-      setOpenDate(false)
+      setSelectedTask({ ...selectedTask, dateRange })
+      updateTaskDueDate(selectedTask.listId, selectedTask.id, dateRange)
+      setModalState(null)
       updateTask({
         ...selectedTask,
-        dueDate: taskDueDate,
+        dateRange: dateRange,
+        checked: false,
         orderId: selectedTask.listId,
       })
     }
@@ -208,11 +198,16 @@ const Home = () => {
 
   const handleRemoveDate = () => {
     if (selectedTask) {
-      setSelectedTask({ ...selectedTask, dueDate: null })
-      setTaskDueDate(null)
-      updateTaskDueDate(selectedTask.listId, selectedTask.id, null)
-      setOpenDate(false)
-      updateTask({ ...selectedTask, dueDate: null, orderId: selectedTask.listId })
+      setSelectedTask({ ...selectedTask, dateRange: [null, null] })
+      setDateRange([null, null])
+      updateTaskDueDate(selectedTask.listId, selectedTask.id, [null, null])
+      setModalState(null)
+      updateTask({
+        ...selectedTask,
+        dateRange: [null, null],
+        orderId: selectedTask.listId,
+        checked: false,
+      })
     }
   }
 
@@ -220,18 +215,7 @@ const Home = () => {
     if (!selectedTask) return
 
     setSelectedTask({ ...selectedTask, comment, orderId: listId })
-    setLists(
-      lists.map((list) => {
-        const isTargetList = list.id === listId
-        if (isTargetList) {
-          return {
-            ...list,
-            tasks: list.tasks.map((task) => (task.id === taskId ? { ...task, comment } : task)),
-          }
-        }
-        return list
-      }),
-    )
+    setLists(updateTaskProperty(lists, listId, taskId, TASK_PROPERTY_KEY.COMMENT, comment))
     updateTask({ ...selectedTask, comment, orderId: selectedTask.listId })
   }
 
@@ -261,72 +245,66 @@ const Home = () => {
     })
 
     if (taskToMove) {
-      setLists(
-        updatedLists.map((list) => {
-          if (list.id === targetListId) {
-            const updatedTasks = [...list.tasks]
-            updatedTasks.splice(targetIndex, 0, taskToMove)
-            return { ...list, tasks: updatedTasks }
-          }
-          return list
-        }),
-      )
+      setLists(moveTask(taskToMove, updatedLists, targetListId, targetIndex))
     }
   }
 
-  const updateTaskLabels = (listId: number, taskId: number, labels: string[]) => {
+  const updateTaskLabels = (listId: number, taskId: number, labels: CheckboxItem[]) => {
     if (!selectedTask) return
 
     setSelectedTask({ ...selectedTask, labels, orderId: listId })
-    setLists(
-      lists.map((list) => {
-        const isTargetList = list.id === listId
-        if (isTargetList) {
-          return {
-            ...list,
-            tasks: list.tasks.map((task) =>
-              task.id === taskId ? { ...task, labels: [...labels] } : task,
-            ),
-          }
-        }
-        return list
-      }),
-    )
+    setLists(updateTaskProperty(lists, listId, taskId, TASK_PROPERTY_KEY.LABELS, labels))
     updateTask({ ...selectedTask, labels, orderId: selectedTask.listId })
   }
 
   const removeTask = (listId: number, taskId: number) => {
-    setLists(
-      lists.map((list) => {
-        const isTargetList = list.id === listId
-        if (isTargetList) {
-          return {
-            ...list,
-            tasks: list.tasks.filter((task) => task.id !== taskId),
-          }
-        }
-        return list
-      }),
-    )
+    setLists(removeTaskById(lists, listId, taskId))
     deleteTask(taskId)
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (selectedTask) {
-      setSelectedTask({ ...selectedTask, title: e.target.value })
+      const title = e.target.value
+      setSelectedTask({ ...selectedTask, title })
+      setLists(updateTaskTitle(lists, selectedTask, title))
+      updateTask({ ...selectedTask, title, orderId: selectedTask.listId })
+    }
+  }
+
+  const handleChangeChecked = (e: ChangeEvent<HTMLInputElement>) => {
+    if (selectedTask) {
+      const checked = e.target.checked
+      setChecked(checked)
+      setSelectedTask({ ...selectedTask, checked })
       setLists(
-        lists.map((list) =>
-          list.id === selectedTask.listId
-            ? {
-                ...list,
-                tasks: list.tasks.map((task) =>
-                  task.id === selectedTask.id ? { ...task, title: e.target.value } : task,
-                ),
-              }
-            : list,
+        updateTaskProperty(
+          lists,
+          selectedTask.listId,
+          selectedTask.id,
+          TASK_PROPERTY_KEY.CHECKED,
+          checked,
         ),
       )
-      updateTask({ ...selectedTask, title: e.target.value, orderId: selectedTask.listId })
+      updateTask({ ...selectedTask, checked, orderId: selectedTask.listId })
+    }
+  }
+
+  const handleCheckboxClick = (e: React.MouseEvent<HTMLDivElement>, listId: number, task: Task) => {
+    if (task) {
+      const selectedTask = { ...task, listId }
+      e.stopPropagation()
+      setChecked(!checked)
+      setSelectedTask({ ...selectedTask, checked })
+      setLists(
+        updateTaskProperty(
+          lists,
+          selectedTask.listId,
+          selectedTask.id,
+          TASK_PROPERTY_KEY.CHECKED,
+          checked,
+        ),
+      )
+      updateTask({ ...selectedTask, checked, orderId: selectedTask.listId })
     }
   }
 
@@ -342,7 +320,7 @@ const Home = () => {
 
   const handleRemoveTask = () => {
     selectedTask && removeTask(selectedTask.listId, selectedTask.id)
-    setOpenRemoveCard(false)
+    setModalState(null)
     handleCloseModal()
     notifications.show(NOTIFICATION_DELETE_CARD)
   }
@@ -350,26 +328,22 @@ const Home = () => {
   return (
     <Flex direction='column' gap='lg'>
       <Flex gap='lg' align='flex-start' style={{ overflowX: 'auto', padding: '1rem 0' }}>
-        {isLoadingColumns && isLoadingTasks ? (
-          <Card padding='xs' radius='lg' bg='backgrounds.1' w='270'>
-            <Skeleton height={30} />
-          </Card>
-        ) : (
-          lists.map((list) => (
-            <Column
-              key={list.id}
-              list={list}
-              isLoading={isLoadingColumns}
-              isAddingTask={addingTaskStates[list.id]}
-              taskName={taskNameStates[list.id]}
-              onAddTask={(taskName) => handleAddTask(list.id, taskName)}
-              onTaskDrop={handleTaskDrop}
-              onIsAddingTask={(value) => setAddingTaskStates(list.id, value)}
-              onTaskName={(name) => setTaskNameStates(list.id, name)}
-              onOpenCard={(task) => handleTaskClick(task, list.id)}
-            />
-          ))
-        )}
+        {lists.map((list) => (
+          <Column
+            key={list.id}
+            list={list}
+            isLoading={isLoadingColumns}
+            isAddingTask={addingTaskStates[list.id]}
+            taskName={taskNameStates[list.id]}
+            onAddTask={(taskName) => handleAddTask(list.id, taskName)}
+            onTaskDrop={handleTaskDrop}
+            onIsAddingTask={(value) => setAddingTaskStates(list.id, value)}
+            onTaskName={(name) => setTaskNameStates(list.id, name)}
+            onOpenCard={(task) => handleTaskClick(task, list.id)}
+            onChecked={handleChangeChecked}
+            onCheckboxClick={(e, task) => handleCheckboxClick(e, list.id, task)}
+          />
+        ))}
       </Flex>
       <Modal
         open={isModalOpen}
@@ -379,30 +353,23 @@ const Home = () => {
       >
         {selectedTask && (
           <CardDetail
+            modalState={modalState}
+            setModalStateByKey={setModalState}
             description={taskDescription}
             labels={taskLabels}
             checkList={checkList}
-            dueDate={taskDueDate}
-            isOpenLabel={isOpenLabel}
-            isOpenDate={isOpenDate}
+            dateRange={dateRange}
             isLoading={isLoadingTasks}
-            formattedDate={taskDueDate ? new Date(taskDueDate).toLocaleDateString() : ''}
-            onOpenLabel={setOpenLabel}
-            onOpenDate={setOpenDate}
             onUpdateDescription={handleDescriptionChange}
             onUpdateLabels={handleChangeCheckbox}
-            onUpdateDueDate={setTaskDueDate}
+            onUpdateDueDate={setDateRange}
             onSaveDate={handleSaveDate}
             onRemoveDate={handleRemoveDate}
-            isEditingDescription={isEditingDescription}
-            onEditingDescription={setIsEditingDescription}
             comments={taskComment}
-            isEditComment={isEditingComment}
-            onEditComment={setIsEditingComment}
             onUpdateComment={handleCommentChange}
-            isOpenRemoveCard={isOpenRemoveCard}
-            onOpenRemoveCard={setOpenRemoveCard}
             onRemoveCard={handleRemoveTask}
+            checked={checked}
+            onChecked={handleChangeChecked}
           />
         )}
       </Modal>

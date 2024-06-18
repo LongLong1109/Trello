@@ -19,7 +19,7 @@ const ModalComponent = ({ value, open, isLoading, onClose, children, onChange }:
       onClose={onClose}
       title={
         <InputComponent
-          variant='none-outline'
+          variant='input-modal'
           value={value}
           onChange={onChange}
           size='lg'
