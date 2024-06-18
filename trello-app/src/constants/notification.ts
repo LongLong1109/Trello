@@ -11,5 +11,5 @@ export const NOTIFICATION_ERROR_QUERY = {
   color: 'red',
   title: 'Query Cache',
   message: 'Failed to query data',
-  auClose: 2000,
+  autoClose: 2000,
 }

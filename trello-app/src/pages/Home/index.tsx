@@ -23,7 +23,6 @@ import { useGetBoards, usePostTask, usePutTask, useRemoveTask } from '@/hooks/us
 // constants
 import { NOTIFICATION_DELETE_CARD } from '@/constants/notification'
 import { INITIAL_CHECKBOX_VALUES } from '@/constants/checkbox'
-import { TODAY, NEXT_DAY } from '@/constants/dateTime'
 
 // utils
 import { removeTaskById, updateTaskTitle, moveTask, updateTaskProperty } from '@/utils/taskUtils'
@@ -290,9 +289,9 @@ const Home = () => {
   }
 
   const handleCheckboxClick = (e: React.MouseEvent<HTMLDivElement>, listId: number, task: Task) => {
+    e.stopPropagation()
     if (task) {
       const selectedTask = { ...task, listId }
-      e.stopPropagation()
       setChecked(!checked)
       setSelectedTask({ ...selectedTask, checked })
       setLists(

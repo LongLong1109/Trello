@@ -8,7 +8,8 @@ export const isDateOverdue = (date: Date) => {
 }
 
 export const convertDateToString = (date: Date) => {
-  return date.toLocaleDateString()
+  const validDate = date ? new Date(date) : new Date()
+  return validDate.toLocaleDateString()
 }
 
 export const formatDate = (date: Date): string => {
