@@ -23,9 +23,8 @@
 }
 
 .label {
-  width: 100%;
-  & :global(.app-Stack-root) {
-    display: block;
+  width: 220px;
+  & :global(.app-Flex-root) {
     height: 30px;
     border-radius: 4px;
   }
