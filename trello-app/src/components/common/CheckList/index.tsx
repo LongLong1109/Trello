@@ -1,4 +1,4 @@
-import { Checkbox, Text, Flex, Tooltip } from '@mantine/core'
+import { Checkbox, Text, Flex } from '@mantine/core'
 import classes from './CheckList.module.css'
 
 export interface CheckboxItem {
@@ -22,11 +22,9 @@ const CheckListComponent = ({ items, onItemChange }: CheckboxListProps) => (
           classNames={classes}
           label={
             <Flex bg={label} align='center' p='10'>
-              <Tooltip label=''>
-                <Text size='sm' truncate='end'>
-                  {name}
-                </Text>
-              </Tooltip>
+              <Text size='sm' truncate='end'>
+                {name}
+              </Text>
             </Flex>
           }
           key={key}

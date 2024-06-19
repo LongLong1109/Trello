@@ -14,5 +14,8 @@ export const validateEmail = (value: string) => {
 }
 
 export const validatePassword = (value: string) => {
+  if (value === '') {
+    return MESSAGES.passwordRequired
+  }
   return value.length >= PASSWORD_MIN_LENGTH ? null : MESSAGES.password
 }

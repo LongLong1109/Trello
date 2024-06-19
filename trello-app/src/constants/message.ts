@@ -3,4 +3,5 @@ export const MESSAGES = {
   lastName: 'Last Name is required',
   email: 'Email is required',
   password: 'Password greater than 8 characters',
+  passwordRequired: 'Password is required',
 }
