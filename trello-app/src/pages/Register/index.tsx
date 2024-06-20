@@ -71,7 +71,7 @@ const RegisterForm = () => {
       <Container miw='450'>
         <Paper w='100%' p='md' shadow='md'>
           <Flex gap='20' direction='column' align='center' justify='center' w='100%' pb='20'>
-            <Image h={40} w={40} src={Logo} />
+            <Image h={40} w={40} src={Logo} alt='logo' />
             <Title c='backgrounds.0' size='24' fw='900' order={2}>
               Sign up to Trello
             </Title>
