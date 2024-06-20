@@ -1,0 +1,10 @@
+User-agent: Googlebot
+Disallow: /api/
+
+User-agent: Unnecessarybot
+Disallow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://task-management-clone.vercel.app/sitemap.xml
