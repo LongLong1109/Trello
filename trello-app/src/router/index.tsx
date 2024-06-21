@@ -5,10 +5,11 @@ import AuthLayout from '@/layouts/AuthLayout'
 import HomeLayout from '@/layouts/HomeLayout'
 
 // constants
-import { ENDPOINTS } from '@/constants/endpoint'
+import { PAGE_URLS } from '@/constants/pageUrls'
 
 // pages
 import { HomePage, LoginPage, RegisterPage } from '@/pages/index'
+import OfflinePage from '@/pages/Offline'
 
 // component
 import ErrorBoundary from '@/components/ErrorBoundary'
@@ -19,7 +20,7 @@ const AppRoutes = () => {
       element: <HomeLayout />,
       children: [
         {
-          path: `/${ENDPOINTS.HOME}`,
+          path: PAGE_URLS.HOME,
           element: (
             <ErrorBoundary>
               <HomePage />
@@ -40,7 +41,7 @@ const AppRoutes = () => {
       element: <AuthLayout />,
       children: [
         {
-          path: `/${ENDPOINTS.LOGIN}`,
+          path: PAGE_URLS.LOGIN,
           element: (
             <ErrorBoundary>
               <LoginPage />
@@ -48,7 +49,7 @@ const AppRoutes = () => {
           ),
         },
         {
-          path: `/${ENDPOINTS.REGISTER}`,
+          path: PAGE_URLS.REGISTER,
           element: (
             <ErrorBoundary>
               <RegisterPage />
@@ -56,6 +57,10 @@ const AppRoutes = () => {
           ),
         },
       ],
+    },
+    {
+      element: <OfflinePage />,
+      path: PAGE_URLS.OFF_LINE,
     },
   ])
 

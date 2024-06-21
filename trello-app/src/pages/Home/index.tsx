@@ -1,11 +1,12 @@
-import { useState, useEffect, ChangeEvent } from 'react'
+import { useState, useEffect, ChangeEvent, useOptimistic } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Flex } from '@mantine/core'
-import { useListState } from '@mantine/hooks'
+import { useListState, useNetwork } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
 import { DatesRangeValue } from '@mantine/dates'
 
 // interface
-import { Task } from '@/interfaces/Task'
+import { Task, ListTask } from '@/interfaces/Task'
 import { ModalType } from '@/types/Modal'
 import { TASK_PROPERTY_KEY } from '@/types/Task'
 
@@ -32,8 +33,11 @@ import Modal from '@/components/common/Modal'
 import CardDetail from '@/components/Board/CardDetail'
 import Column from '@/components/Board/Columns'
 import { CheckboxItem } from '@/components/common'
+import { PAGE_URLS } from '@/constants/pageUrls'
 
 const Home = () => {
+  const { online } = useNetwork()
+  const navigate = useNavigate()
   const userAuth = useAuth((state) => state.userAuth)
   const userId = userAuth?.user.id || ''
   const { getListColumn, isLoadingColumns, getTasks, isLoadingTasks } = useGetBoards(userId)
@@ -42,6 +46,13 @@ const Home = () => {
   // list store
   const [lists, listActions] = useList((state) => [state.lists, state.listActions])
   const { setLists } = listActions
+
+  const [optimisticList, addOptimisticList] = useOptimistic(
+    lists,
+    (currentList: ListTask[], newList: ListTask[]) => {
+      return [...currentList, ...newList]
+    },
+  )
 
   const [
     addingTaskStates,
@@ -110,16 +121,23 @@ const Home = () => {
   }
 
   useEffect(() => {
-    if (getListColumn && getTasks) {
-      setLists(
-        getListColumn.columns.map((column) => ({
-          id: column.id,
-          name: column.name,
-          tasks: getTasks.filter((task) => task.orderId === column.order),
-        })),
-      )
+    if (!online) {
+      navigate(PAGE_URLS.OFF_LINE)
     }
-  }, [getTasks, getListColumn, setLists])
+  }, [online])
+
+  useEffect(() => {
+    if (getListColumn && getTasks) {
+      const newList = getListColumn.columns.map((column) => ({
+        id: column.id,
+        name: column.name,
+        tasks: getTasks.filter((task) => task.orderId === column.order),
+      }))
+
+      addOptimisticList(newList)
+      setLists(newList)
+    }
+  }, [getTasks, getListColumn, setLists, addOptimisticList])
 
   useEffect(() => {
     if (selectedTask) {
@@ -327,7 +345,7 @@ const Home = () => {
   return (
     <Flex direction='column' gap='lg'>
       <Flex gap='lg' align='flex-start' style={{ overflowX: 'auto', padding: '1rem 0' }}>
-        {lists.map((list) => (
+        {optimisticList.map((list) => (
           <Column
             key={list.id}
             list={list}

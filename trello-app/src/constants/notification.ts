@@ -13,3 +13,11 @@ export const NOTIFICATION_ERROR_QUERY = {
   message: 'Failed to query data',
   autoClose: 2000,
 }
+
+export const NOTIFICATION_NETWORK = {
+  id: 'net-work',
+  color: 'red',
+  title: 'Error Network',
+  message: 'You are still offline. Please check your connection and try again.',
+  autoClose: 3000,
+}
